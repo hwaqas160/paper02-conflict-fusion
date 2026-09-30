@@ -1,0 +1,120 @@
+# Paper 02 — Conflict-Aware Late Fusion. Single source of truth for every experiment.
+# Paths are relative to the paper02-conflict-fusion/ folder unless absolute.
+
+paths:
+  boreas_root: data/boreas
+  cadc_root: data/cadc
+  cache_root: results/cache          # frozen-detector outputs, written once
+  candidates_root: results/candidates
+  results_root: results
+  checkpoints: code/checkpoints
+
+seed: 0
+
+# ---------------------------------------------------------------------------------------------
+# Region of interest: where all three sensors can see and where Boreas has labels.
+# The KITTI PointPillars checkpoint covers x in [0, 69.12], |y| <= 39.68; the camera HFOV is 81°.
+roi:
+  x_min: 0.0
+  x_max: 69.0
+  y_abs_max: 39.5
+  half_fov_deg: 40.0
+  classes: [Car, Pedestrian]         # Cyclist too rare in Boreas-objects to support per-class stats
+  min_gt_points: 25                  # Boreas detection-benchmark convention (labels_detection)
+
+# ---------------------------------------------------------------------------------------------
+splits:
+  # Boreas-objects-v1 labelled frames are grouped into scenes (applanix/seqtimes.txt). Splits are
+  # by SCENE, never by frame, so temporally adjacent frames never straddle train / calibration / test.
+  scene_fractions: {train: 0.45, cal: 0.20, test: 0.35}
+  frame_stride: 1                    # >1 subsamples frames inside each scene (dev runs)
+
+# ---------------------------------------------------------------------------------------------
+weather:
+  # Graded, physically-motivated degradation of the *raw* sensor data, applied before the frozen
+  # detectors run. Boreas' labelled subset is sunny-only, so this is how GT survives the shift.
+  conditions:
+    clear: [0]
+    fog:   [1, 2, 3]
+    rain:  [1, 2, 3]
+    snow:  [1, 2, 3]
+    night: [2]
+  fog_visibility_m: {1: 150.0, 2: 70.0, 3: 35.0}
+  rain_rate_mmh: {1: 5.0, 2: 20.0, 3: 50.0}
+  snow_rate_mmh: {1: 0.5, 2: 1.5, 3: 3.0}      # liquid-equivalent snowfall rate
+  # Held out of arbitration-head training to test routing on an unseen degradation type.
+  heldout_for_head: [snow]
+  calibration_conditions: [clear]              # H3: calibrate on clear only
+
+# ---------------------------------------------------------------------------------------------
+detectors:
+  # cpu while the shared P2000 is busy with another job (a ~1 GB allocation here could OOM it).
+  # Set to auto (cuda if > 2 GB free) when the GPU is yours: ~3x faster caching.
+  device: cpu
+  lidar:
+    name: pointpillars_kitti_3class
+    checkpoint: pointpillars_kitti_3class_20220301.pth
+    sensor_height_kitti: 1.73
+    score_thr: 0.05                  # keep low-confidence boxes; late fusion decides
+    nms_iou: 0.01
+    max_det: 100
+    intensity_scale: auto            # auto -> divide by 255 if max intensity > 1.5
+    legacy_voxel_center: auto        # mmdet3d<=1.0 in-place quirk; resolved by self-check
+  camera:
+    name: fasterrcnn_resnet50_fpn_v2_coco
+    score_thr: 0.05
+    max_det: 100
+    lift_ground_sigma_px: 2.0        # bottom-edge localisation noise for range sigma
+  radar:
+    name: ca_cfar_cluster
+    max_range_m: 80.0
+    cfar_guard: 4
+    cfar_train: 24
+    cfar_offset: 0.09                # in normalised log-power units
+    min_power: 0.20
+    grid_res_m: 0.5
+    min_points: 3
+    max_extent_m: 9.0
+
+# ---------------------------------------------------------------------------------------------
+association:
+  lidar_radar_gate_m: 2.5
+  camera_azimuth_gate_deg: 3.0
+  camera_range_gate_rel: 0.30        # |r_cam - r_other| <= rel * r + abs
+  camera_range_gate_abs: 3.0
+  nms_center_m: 1.0
+
+matching:
+  center_dist_m: {Car: 2.0, Pedestrian: 1.0}
+  ap_thresholds_m: [0.5, 1.0, 2.0, 4.0]
+
+# ---------------------------------------------------------------------------------------------
+arbitration:
+  hidden: 64
+  depth: 2
+  frame_context: true                # mean-pooled candidate context (DeepSets) per frame
+  epochs: 40
+  batch_frames: 32
+  lr: 2.0e-3
+  lr_constant: 5.0e-2                # parameter-only routers (fixed arms) need far larger steps
+  min_steps: 2500                    # small dev splits have few batches per epoch
+  dropout_variants: 6
+  weight_decay: 1.0e-4
+  loss_loc_weight: 0.5
+  loss_harm_weight: 0.2
+  dropout_modality_p: 0.10           # random whole-sensor dropout during training (Exp 7)
+  early_stop_patience: 6
+
+harm:
+  decision: f1_threshold_clear       # operating threshold chosen on clear training frames
+  soft_margin_nats: 0.1
+
+conformal:
+  alpha: [0.05, 0.10, 0.20]
+  conflict_inflation: true
+  mondrian_range_bins_m: [0, 20, 40, 70]
+  weighted_shift: true               # likelihood-ratio weighted conformal (Tibshirani et al. 2019)
+
+bootstrap:
+  n: 1000
+  unit: frame

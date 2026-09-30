@@ -1,0 +1,59 @@
+{
+  "variant": "V2",
+  "per_fold": [
+    {
+      "original": 0.8300127138205081,
+      "set_transformer": 0.8575990537126883,
+      "V2": 0.8579679999360238
+    },
+    {
+      "original": 0.8281448531289077,
+      "set_transformer": 0.8481580471241235,
+      "V2": 0.8331666533625453
+    },
+    {
+      "original": 0.802902055853038,
+      "set_transformer": 0.8035604090183762,
+      "V2": 0.8154956678677834
+    },
+    {
+      "original": 0.8345070956140492,
+      "set_transformer": 0.8427735883281375,
+      "V2": 0.8515100886263642
+    },
+    {
+      "original": 0.8401131613198689,
+      "set_transformer": 0.8600878837020625,
+      "V2": 0.8556721516131589
+    }
+  ],
+  "oof_map": {
+    "original": 0.8269471763628613,
+    "set_transformer": 0.8418266462391462,
+    "V2": 0.8427278802231316
+  },
+  "vs": {
+    "set_transformer": {
+      "diff": 0.00090123398398545,
+      "ci95": [
+        -0.003178414920086847,
+        0.005472291096856151
+      ],
+      "p_one_sided": 0.2917082917082917,
+      "n_scenes": 230,
+      "scenes_won": null
+    },
+    "original": {
+      "diff": 0.015780703860270306,
+      "ci95": [
+        0.012048309592629971,
+        0.01988791614900663
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null
+    }
+  },
+  "folds_variant_ge_set_transformer": 3,
+  "note": "not independent of development (folds contain development scenes)"
+}

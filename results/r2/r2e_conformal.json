@@ -1,0 +1,409 @@
+{
+  "alpha": 0.1,
+  "loc": {
+    "clear0": {
+      "vanilla": {
+        "coverage": 0.9577780709856182,
+        "mean_radius": 0.7491506338119507,
+        "median_radius": 0.7490689158439636,
+        "n": 7579,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9526322733869904,
+        "mean_radius": 0.6693381705860534,
+        "median_radius": 0.6204064347590329,
+        "n": 7579,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9449795487531336,
+        "mean_radius": 0.6567844936113738,
+        "median_radius": 0.6013525637470607,
+        "n": 7579,
+        "nominal": 0.9
+      }
+    },
+    "fog1": {
+      "vanilla": {
+        "coverage": 0.930667394568036,
+        "mean_radius": 0.749122679233551,
+        "median_radius": 0.7490376234054565,
+        "n": 7327,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9275283199126518,
+        "mean_radius": 0.7483365036254287,
+        "median_radius": 0.6374949766854966,
+        "n": 7327,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9261635048450935,
+        "mean_radius": 0.7246943407508583,
+        "median_radius": 0.5943949155758402,
+        "n": 7327,
+        "nominal": 0.9
+      }
+    },
+    "fog2": {
+      "vanilla": {
+        "coverage": 0.9212421242124212,
+        "mean_radius": 0.7490391135215759,
+        "median_radius": 0.7489253282546997,
+        "n": 6666,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9236423642364237,
+        "mean_radius": 0.811469495481878,
+        "median_radius": 0.6830240896166462,
+        "n": 6666,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9345934593459346,
+        "mean_radius": 0.9025671488687593,
+        "median_radius": 0.7025247566313269,
+        "n": 6666,
+        "nominal": 0.9
+      }
+    },
+    "fog3": {
+      "vanilla": {
+        "coverage": 0.8388305847076462,
+        "mean_radius": 0.7485787272453308,
+        "median_radius": 0.7485601902008057,
+        "n": 4002,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.8668165917041479,
+        "mean_radius": 0.8617773496596138,
+        "median_radius": 0.7318384512590357,
+        "n": 4002,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.914792603698151,
+        "mean_radius": 1.0863149561097567,
+        "median_radius": 0.740848445382124,
+        "n": 4002,
+        "nominal": 0.9
+      }
+    },
+    "rain1": {
+      "vanilla": {
+        "coverage": 0.9600851516764236,
+        "mean_radius": 0.749140739440918,
+        "median_radius": 0.7490582466125488,
+        "n": 7516,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9571580627993613,
+        "mean_radius": 0.7029503506926531,
+        "median_radius": 0.6291306306189344,
+        "n": 7516,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9453166577967004,
+        "mean_radius": 0.6586987151048881,
+        "median_radius": 0.5745069387022241,
+        "n": 7516,
+        "nominal": 0.9
+      }
+    },
+    "rain2": {
+      "vanilla": {
+        "coverage": 0.9554607280970796,
+        "mean_radius": 0.749143123626709,
+        "median_radius": 0.7490575909614563,
+        "n": 7499,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9539938658487799,
+        "mean_radius": 0.7155859867140417,
+        "median_radius": 0.6411060434107724,
+        "n": 7499,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9421256167488998,
+        "mean_radius": 0.6612379252946368,
+        "median_radius": 0.5733141887442347,
+        "n": 7499,
+        "nominal": 0.9
+      }
+    },
+    "rain3": {
+      "vanilla": {
+        "coverage": 0.9503459503459504,
+        "mean_radius": 0.7491273283958435,
+        "median_radius": 0.7490401268005371,
+        "n": 7371,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9525166191832859,
+        "mean_radius": 0.7663538518551241,
+        "median_radius": 0.6654868413919383,
+        "n": 7371,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9385429385429386,
+        "mean_radius": 0.6808920015913952,
+        "median_radius": 0.5815660638967446,
+        "n": 7371,
+        "nominal": 0.9
+      }
+    },
+    "snow1": {
+      "vanilla": {
+        "coverage": 0.9539115420374552,
+        "mean_radius": 0.7491466403007507,
+        "median_radius": 0.7490689158439636,
+        "n": 7529,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9499269491300305,
+        "mean_radius": 0.6873506057484503,
+        "median_radius": 0.6321358152832983,
+        "n": 7529,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9407623854429539,
+        "mean_radius": 0.6562846568409506,
+        "median_radius": 0.5903496172549711,
+        "n": 7529,
+        "nominal": 0.9
+      }
+    },
+    "snow2": {
+      "vanilla": {
+        "coverage": 0.9502807834543213,
+        "mean_radius": 0.7491325736045837,
+        "median_radius": 0.7490493655204773,
+        "n": 7301,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9506916860704013,
+        "mean_radius": 0.7020580721767405,
+        "median_radius": 0.6331154191642031,
+        "n": 7301,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9383646075880017,
+        "mean_radius": 0.672070832392454,
+        "median_radius": 0.584144766668355,
+        "n": 7301,
+        "nominal": 0.9
+      }
+    },
+    "snow3": {
+      "vanilla": {
+        "coverage": 0.9495007958327304,
+        "mean_radius": 0.7491257190704346,
+        "median_radius": 0.7490335702896118,
+        "n": 6911,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9440023151497613,
+        "mean_radius": 0.7181680300927513,
+        "median_radius": 0.6420256949399769,
+        "n": 6911,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9327159600636666,
+        "mean_radius": 0.6892899888529121,
+        "median_radius": 0.5872919073733596,
+        "n": 6911,
+        "nominal": 0.9
+      }
+    },
+    "night2": {
+      "vanilla": {
+        "coverage": 0.9538155275381552,
+        "mean_radius": 0.7491511106491089,
+        "median_radius": 0.7490697503089905,
+        "n": 7535,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9524883875248839,
+        "mean_radius": 0.7260957548511837,
+        "median_radius": 0.6461354690907685,
+        "n": 7535,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9424021234240212,
+        "mean_radius": 0.6715509101887523,
+        "median_radius": 0.5909129723870179,
+        "n": 7535,
+        "nominal": 0.9
+      }
+    },
+    "SNOW_POOLED": {
+      "vanilla": {
+        "coverage": 0.9512901890437422,
+        "mean_radius": 0.7491353154182434,
+        "median_radius": 0.7490522265434265,
+        "n": 21741,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9483004461616301,
+        "mean_radius": 0.7020858263931496,
+        "median_radius": 0.6354036633828667,
+        "n": 21741,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9373993836530058,
+        "mean_radius": 0.6720776156393589,
+        "median_radius": 0.5871293522846152,
+        "n": 21741,
+        "nominal": 0.9
+      }
+    },
+    "SEVERE": {
+      "vanilla": {
+        "coverage": 0.9256180266900021,
+        "mean_radius": 0.7490066885948181,
+        "median_radius": 0.7488598823547363,
+        "n": 18284,
+        "nominal": 0.9
+      },
+      "conflict": {
+        "coverage": 0.9305403631590462,
+        "mean_radius": 0.7690268240720247,
+        "median_radius": 0.6693366877762358,
+        "n": 18284,
+        "nominal": 0.9
+      },
+      "degradation_normalised": {
+        "coverage": 0.9311419820608182,
+        "mean_radius": 0.7728052128114142,
+        "median_radius": 0.6160583150406083,
+        "n": 18284,
+        "nominal": 0.9
+      }
+    }
+  },
+  "crc": {
+    "clear0": {
+      "fnr_clear_calibrated": 0.0598979848979849,
+      "fnr_degradation_mondrian": 0.04972186130722716,
+      "fnr_floor_accept_all": 0.03187823675628554,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.0598979848979849
+    },
+    "fog1": {
+      "fnr_clear_calibrated": 0.07218827462729902,
+      "fnr_degradation_mondrian": 0.07683047561096343,
+      "fnr_floor_accept_all": 0.0415756019414556,
+      "flagged_out_of_support": 0.03164139749505601,
+      "fnr_in_support": 0.07387593875000274
+    },
+    "fog2": {
+      "fnr_clear_calibrated": 0.12655399423692107,
+      "fnr_degradation_mondrian": 0.13539535795633356,
+      "fnr_floor_accept_all": 0.07653103506762043,
+      "flagged_out_of_support": 0.9136453526697429,
+      "fnr_in_support": 0.16926756449657215
+    },
+    "fog3": {
+      "fnr_clear_calibrated": 0.36350963363158484,
+      "fnr_degradation_mondrian": 0.3794523410377069,
+      "fnr_floor_accept_all": 0.3012792287182531,
+      "flagged_out_of_support": 1.0,
+      "fnr_in_support": NaN
+    },
+    "rain1": {
+      "fnr_clear_calibrated": 0.06951534512510121,
+      "fnr_degradation_mondrian": 0.06098332744674208,
+      "fnr_floor_accept_all": 0.04060428877502048,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.06951534512510121
+    },
+    "rain2": {
+      "fnr_clear_calibrated": 0.06892822990383965,
+      "fnr_degradation_mondrian": 0.0687398644715718,
+      "fnr_floor_accept_all": 0.040741145619194404,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.06892822990383965
+    },
+    "rain3": {
+      "fnr_clear_calibrated": 0.07051618819911502,
+      "fnr_degradation_mondrian": 0.0746514380660722,
+      "fnr_floor_accept_all": 0.03814376863157351,
+      "flagged_out_of_support": 0.005273566249175965,
+      "fnr_in_support": 0.07066913463533742
+    },
+    "snow1": {
+      "fnr_clear_calibrated": 0.06983478142014728,
+      "fnr_degradation_mondrian": 0.06176038676038676,
+      "fnr_floor_accept_all": 0.04553784126954859,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.06983478142014728
+    },
+    "snow2": {
+      "fnr_clear_calibrated": 0.08403154378764134,
+      "fnr_degradation_mondrian": 0.0800798904457441,
+      "fnr_floor_accept_all": 0.05134038121843,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.08403154378764134
+    },
+    "snow3": {
+      "fnr_clear_calibrated": 0.10500024219536416,
+      "fnr_degradation_mondrian": 0.10831774429335404,
+      "fnr_floor_accept_all": 0.057246761515054194,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.10500024219536416
+    },
+    "night2": {
+      "fnr_clear_calibrated": 0.06881648527989992,
+      "fnr_degradation_mondrian": 0.054611895465554,
+      "fnr_floor_accept_all": 0.03629184299916007,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.06881648527989992
+    },
+    "SNOW_POOLED": {
+      "fnr_clear_calibrated": 0.08628885580105092,
+      "fnr_degradation_mondrian": 0.08338600716649498,
+      "fnr_floor_accept_all": 0.0513749946676776,
+      "flagged_out_of_support": 0.0,
+      "fnr_in_support": 0.08628885580105092
+    },
+    "SEVERE": {
+      "fnr_clear_calibrated": 0.17967535467535467,
+      "fnr_degradation_mondrian": 0.18747384113237772,
+      "fnr_floor_accept_all": 0.1322232529549603,
+      "flagged_out_of_support": 0.3350911887497253,
+      "fnr_in_support": 0.08788006991906527
+    }
+  },
+  "lam_bins": [
+    0.02008294358138164,
+    0.01344653098708272,
+    0.05329637412899104
+  ],
+  "lam_clear": 0.040285427048427955,
+  "deg_edges": [
+    -12.637111028035482,
+    -11.9638671875
+  ],
+  "support_hi": -10.561327810287475,
+  "E1_refuted": true
+}

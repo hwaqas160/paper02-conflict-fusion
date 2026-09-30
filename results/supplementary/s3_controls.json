@@ -1,0 +1,65 @@
+{
+  "per-object (ours)": {
+    "params": 18195,
+    "clear0": 0.8651355165673946,
+    "ADVERSE_POOLED": 0.7771164826244927,
+    "HELDOUT": 0.8159588934691273,
+    "fog3": 0.4041413219724982
+  },
+  "CLOCs-style (conf + conflict + det feats, no probes)": {
+    "params": 11795,
+    "clear0": 0.8460847909649798,
+    "ADVERSE_POOLED": 0.7450782230260657,
+    "HELDOUT": 0.7927097011563232,
+    "fog3": 0.3452842598916329
+  },
+  "CLOCs-style + frame context": {
+    "params": 15891,
+    "clear0": 0.8434229815829599,
+    "ADVERSE_POOLED": 0.746415058207914,
+    "HELDOUT": 0.7880206665447459,
+    "fog3": 0.35095260929291855
+  },
+  "probes only (no conf / conflict / det feats)": {
+    "params": 16275,
+    "clear0": 0.8531217166306672,
+    "ADVERSE_POOLED": 0.7639330204991579,
+    "HELDOUT": 0.8043960903577507,
+    "fog3": 0.38690972124273937
+  },
+  "per-frame features, hidden 88 (\u2248 ours' params)": {
+    "params": 18851,
+    "clear0": 0.7899172097348937,
+    "ADVERSE_POOLED": 0.6879054472296297,
+    "HELDOUT": 0.722641632452948,
+    "fog3": 0.3093127908273138
+  },
+  "per-frame classifier, hidden 88": {
+    "params": 18235,
+    "clear0": 0.8015927763112473,
+    "ADVERSE_POOLED": 0.6985324527308949,
+    "HELDOUT": 0.7294348149235624,
+    "fog3": 0.3164325055464439
+  },
+  "per-object, hidden 40 (\u2248 per-frame params)": {
+    "params": 8499,
+    "clear0": 0.872564452060253,
+    "ADVERSE_POOLED": 0.7834361910978034,
+    "HELDOUT": 0.8266347224633862,
+    "fog3": 0.4070421326193032
+  },
+  "per-frame classifier (Exp 2)": {
+    "params": 10195,
+    "clear0": 0.803871242284601,
+    "ADVERSE_POOLED": 0.7001538797627999,
+    "HELDOUT": 0.7326768279229934,
+    "fog3": 0.31414795914806015
+  },
+  "per-object, negative-evidence term removed (test time)": {
+    "params": 18195,
+    "clear0": 0.8596085081306346,
+    "ADVERSE_POOLED": 0.7709651470836247,
+    "HELDOUT": 0.808427303480737,
+    "fog3": 0.40079332979064175
+  }
+}

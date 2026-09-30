@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the accompanying paper."
+title: "Per-object, degradation-conditioned arbitration over frozen camera, LiDAR and radar detectors, with conformal guarantees: code, pre-registrations and results"
+type: software
+license: MIT
+authors:
+  - family-names: Saleem
+    given-names: Hassan Waqas
+    email: hsaleem.msee20seecs@seecs.edu.pk
+    orcid: "https://orcid.org/0009-0003-4461-8005"
+    affiliation: "School of Electrical Engineering and Computer Science (SEECS), National University of Sciences and Technology (NUST), Islamabad, Pakistan"
+  - family-names: Saleem
+    given-names: Rahat Zeeshan
+    affiliation: "NUST Business School (NBS), National University of Sciences and Technology (NUST), Islamabad, Pakistan"
+  - family-names: Maryam
+    given-names: Hina
+    affiliation: "State Bank of Pakistan, Karachi, Pakistan"
+keywords:
+  - sensor fusion
+  - adverse weather
+  - 3D object detection
+  - conformal prediction
+  - autonomous driving
