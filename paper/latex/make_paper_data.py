@@ -24,6 +24,7 @@ FIGURE_MAP = {
     "exp2_routing/map_by_condition.png": "map_by_condition.png",
     "exp4_conformal/coverage_transfer.png": "coverage_transfer.png",
     "exp7_dropout/dropout.png": "dropout.png",
+    "supplementary/forest_headline.png": "forest_headline.png",
 }
 
 
@@ -116,6 +117,14 @@ def r2_macros(macros):
                         cmp_cell(v) if v else "--"])
         macros["RtwoBRows"] = rows(out)
         macros["RtwoBHeadroom"] = f"{100 * b['headroom_captured']:.0f}"
+        camel = {"set_transformer": "SetTransformer", "clocs": "Clocs", "proben": "ProbEn",
+                 "dempster_shafer": "DempsterShafer", "moe_frame": "MoeFrame", "frame_cls": "FrameCls",
+                 "fixed_clear": "FixedClear"}
+        for a, v in b["vs_ours"].items():
+            suf = camel.get(a, a.title().replace("_", ""))
+            macros[f"RtwoBDiff{suf}"] = num(v["diff"], 4)
+            macros[f"RtwoBLo{suf}"] = num(v["ci95"][0], 4)
+            macros[f"RtwoBHi{suf}"] = num(v["ci95"][1], 4)
         best = max((a for a in b["vs_ours"]), key=lambda a: b["map"][a]["ADVERSE_POOLED"])
         macros["RtwoBBestName"] = TEX_LABEL[best].split(" \\cite")[0]
         macros["RtwoBBestGap"] = num(b["vs_ours"][best]["diff"], 3)
@@ -132,6 +141,7 @@ def r2_macros(macros):
         macros["RtwoCRows"] = rows(out)
         macros["RtwoCNContrib"] = str(sum(v["contributes"] for v in c["vs_full"].values()))
         macros["RtwoCNTotal"] = str(len(c["vs_full"]))
+        macros["RtwoCNNo"] = str(sum(not v["contributes"] for v in c["vs_full"].values()))
     e = load(*r2, "r2e_conformal.json")
     if e:
         out = []
@@ -243,6 +253,15 @@ def r2_macros(macros):
                                             f"{v['diff']:+.4f} ({pv(v['p_holm'])})", "yes" if v["contributes"] else "no"]
                                            for n, v in a["C_vs_full"].items()])
             macros["RtwoATsCNContrib"] = str(sum(v["contributes"] for v in a["C_vs_full"].values()))
+            if c:  # one table, both datasets: Boreas (clear, adverse, diff, contributes) then TruckScenes (adverse, diff, contributes)
+                both = [["full router (ours)", num(c["map"]["full"]["clear0"]), num(c["map"]["full"]["ADVERSE_POOLED"]), "--", "--",
+                         num(a["oof_map"]["ADVERSE_POOLED"]["object"]), "--", "--"]]
+                for n, v in c["vs_full"].items():
+                    t = a["C_vs_full"][n]
+                    both.append([f"w/o {ABL_LABEL.get(n, n)}", num(c["map"][n]["clear0"]), num(c["map"][n]["ADVERSE_POOLED"]),
+                                 f"{v['diff']:+.4f} ({pv(v['p_holm'])})", "yes" if v["contributes"] else "no",
+                                 num(a["C_map"][n]), f"{t['diff']:+.4f} ({pv(t['p_holm'])})", "yes" if t["contributes"] else "no"])
+                macros["RtwoCBothRows"] = rows(both)
         if "E" in a:
             macros["RtwoATsERows"] = rows([[t.rstrip("01"), num(v["cov_vanilla"]), num(v["cov_conflict"]),
                                             f"{num(v['cov_degradation_normalised'])} / {num(v['rad_degradation_normalised'], 2)}",
@@ -253,6 +272,14 @@ def r2_macros(macros):
         macros["RtwoAOffDelta"], macros["RtwoAOffP"] = num(o["A1"]["diff"], 4), pc(o["A1"]["p_one_sided"])
         macros["RtwoAOffObj"] = num(o["map"]["ADVERSE_POOLED"]["object"])
         macros["RtwoAOffFrame"] = num(o["map"]["ADVERSE_POOLED"]["frame_cls"])
+    if b and a:
+        # R2-B1 rule: refuted for a baseline if that baseline beats ours (whole 95 % CI of ours-minus-baseline below 0)
+        short = {"set_transformer": "the set-transformer", "clocs": "CLOCs", "proben": "ProbEn",
+                 "dempster_shafer": "Dempster--Shafer", "moe_frame": "the mixture of experts",
+                 "frame_cls": "the per-frame classifier", "fixed_clear": "the status quo"}
+        beaten_by = [f"{short.get(k, k)} on {ds}" for ds, src in (("Boreas", b["vs_ours"]), ("TruckScenes", a.get("B_vs_ours", {})))
+                     for k, v in src.items() if v["ci95"][1] < 0]
+        macros["RtwoBOneVerdict"] = "not refuted" if not beaten_by else "refuted for " + " and ".join(beaten_by)
     d = load(*r2, "r2d_cadc.json")
     if d:
         arms = ("fixed_clear", "frame_cls", "object")
@@ -335,6 +362,8 @@ def r3_macros(macros):
         macros["RthreeBoOrig"] = num(b["map"]["ADVERSE_POOLED"]["original"])
         macros["RthreeBoSt"] = num(b["map"]["ADVERSE_POOLED"]["set_transformer"])
         macros["RthreeBoVsOrigDiff"] = f"{b['vs']['original']['diff']:+.3f}"
+        macros["RthreeBoVsOrigLo"] = num(b["vs"]["original"]["ci95"][0], 4)
+        macros["RthreeBoVsOrigHi"] = num(b["vs"]["original"]["ci95"][1], 4)
         macros["RthreeBoVsOrigP"] = pc(b["vs"]["original"]["p_one_sided"])
         macros["RthreeBoVsStDiff"] = f"{b['vs']['set_transformer']['diff']:+.3f}"
         macros["RthreeBoVsStP"] = pc(b["vs"]["set_transformer"]["p_one_sided"])

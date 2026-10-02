@@ -84,6 +84,38 @@ def grouped_bars(groups, series, values, colors, labels, ylabel, title, path, er
     save(fig, path)
 
 
+def forest(rows, path, xlabel="Car mAP difference", groups=None):
+    """rows: list of (label, diff, lo, hi, colour_key) top-to-bottom in the order given.
+    groups: optional list of (first_row_index, group_title); a gap opens before that row and the title sits in it,
+    clear of both the group above and the group's own first row."""
+    n = len(rows)
+    GAP = 0.9
+    starts = {idx for idx, _ in groups} if groups else set()
+    y_top = [GAP if 0 in starts else 0.0]
+    for i in range(1, n):
+        y_top.append(y_top[-1] + 1.0 + (GAP if i in starts else 0.0))
+    total = y_top[-1]
+    top_margin = GAP if 0 in starts else 0.3
+    ys = [total - y for y in y_top]  # first row at the top
+    fig, ax = plt.subplots(figsize=(FIG_W, 0.34 * (total + top_margin + 1) + 1.1), constrained_layout=True)
+    for y, (label, diff, lo, hi, ckey) in zip(ys, rows):
+        c = ARM_COLOR.get(ckey, SERIES[0]) if ckey else INK2
+        ax.plot([lo, hi], [y, y], color=c, linewidth=1.3, solid_capstyle="round")
+        ax.plot([diff], [y], marker="o", markersize=4.5, color=c, markeredgecolor="white", markeredgewidth=0.5)
+    ax.axvline(0, color=MUTED, linewidth=0.8, linestyle=(0, (4, 3)))
+    ax.set_yticks(ys)
+    ax.set_yticklabels([r[0] for r in rows])
+    ax.set_ylim(-0.7, total + top_margin)
+    style(ax, xlabel=xlabel, grid_axis="x")
+    ax.tick_params(axis="y", length=0)
+    if groups:
+        x0 = ax.get_xlim()[0]
+        for idx, title in groups:
+            y = ys[idx] + (GAP + 1.0) / 2 - 0.05
+            ax.text(x0, y, title, fontsize=7.5, fontweight="bold", color=INK, ha="left", va="center")
+    save(fig, path)
+
+
 def lines(xs, series, values, colors, labels, ylabel, xlabel, title, path, ref_line=None):
     fig, ax = plt.subplots(figsize=(FIG_W, 2.9), constrained_layout=True)
     for s in series:

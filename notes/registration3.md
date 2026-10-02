@@ -70,3 +70,12 @@ Dev-test = 104 held-out official-train scenes (`results/truckscenes_dev/r3/r3_de
 * Final evaluation now runs exactly as registered above: TruckScenes official val (75 scenes), Boreas test, plus
   descriptive extras (rule-only ablation of the correction, correction magnitudes, CPU latency, 5-fold CV flagged as
   not independent).
+
+---
+## Clarification (2026-09-30, wording only; no analysis changed)
+"Untouched" in this note and in the docstring of `final_truckscenes` means: no **Registration-3 development step** (fitting or
+selecting V1-V3) used the 75 official validation scenes or any Boreas test scene. Registration 2 (R2-A official-split rows and
+the 5-fold CV test folds) had already **scored the original router and the set-transformer** on those scenes, so those two
+reference scores were known before Registration 3 began. The manuscript (Section on Registration 3, and the scorecard
+paragraph on reuse) states it this way. The source docstring was deliberately left as written: `r3_experiments.py` is hashed
+into the R3 cache fingerprints, so editing it would force a refit.

@@ -56,6 +56,36 @@ def charts(cfg):
     vals = {a: {g: e7[a][tag][g] for g in groups} for a in arms}
     plots.grouped_bars(groups, arms, vals, plots.ARM_COLOR, plots.ARM_LABEL, "Car mAP", "",
                        R / "exp7_dropout" / "dropout.png")
+    forest(R)
+
+
+def forest(R):
+    """Forest plot of every headline pre-registered effect size, all pulled straight from the same JSON files
+    make_paper_data.py reads, so a plotted point can never disagree with the number in the text."""
+    s1 = _load(R, "supplementary", "s1_scene_bootstrap.json")["ADVERSE_POOLED"]["object_vs_frame_cls"]
+    a = _load(R / "truckscenes" / "r2", "r2a_truckscenes.json")
+    b = _load(R, "r2", "r2b_baselines.json")
+    r3ts = _load(R / "truckscenes" / "r3", "r3_final_truckscenes.json")
+    r3bo = _load(R, "r3", "r3_final_boreas.json")
+    baseline_label = {"clocs": "CLOCs", "proben": "ProbEn", "dempster_shafer": "Dempster–Shafer",
+                      "moe_frame": "Mixture of experts", "set_transformer": "Set-transformer"}
+    rows, groups = [], []
+    groups.append((len(rows), "H2 — per-object vs. per-frame (Boreas, scene-cluster)"))
+    rows.append(("per-frame classifier", s1["diff"], s1["ci95"][0], s1["ci95"][1], "object"))
+    groups.append((len(rows), "R2-A — TruckScenes real weather (5-fold CV)"))
+    rows.append(("per-frame classifier", a["A1"]["diff"], a["A1"]["ci95"][0], a["A1"]["ci95"][1], "object"))
+    rows.append(("radar removed", a["A3"]["diff"], a["A3"]["ci95"][0], a["A3"]["ci95"][1], "object"))
+    groups.append((len(rows), "R2-B — vs. published baselines (Boreas)"))
+    for k in ("clocs", "proben", "dempster_shafer", "moe_frame", "set_transformer"):
+        v = b["vs_ours"][k]
+        rows.append((baseline_label[k], v["diff"], v["ci95"][0], v["ci95"][1], "object"))
+    groups.append((len(rows), "R3 — closing the gap (held-out scenes)"))
+    v = r3ts["vs"]["set_transformer"]
+    rows.append(("V2 vs. set-transformer (TruckScenes)", v["diff"], v["ci95"][0], v["ci95"][1], "frame_cls"))
+    v = r3bo["vs"]["original"]
+    rows.append(("V2 vs. original router (Boreas)", v["diff"], v["ci95"][0], v["ci95"][1], "frame_cls"))
+    plots.forest(rows, R / "supplementary" / "forest_headline.png",
+                xlabel="Car mAP difference (positive favours the router, or V2 for the R3 rows)", groups=groups)
 
 
 def main():
