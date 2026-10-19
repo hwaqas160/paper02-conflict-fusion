@@ -1,0 +1,93 @@
+{
+  "train": "Boreas simulated weather only",
+  "test": "all real adverse TruckScenes scenes",
+  "n_boot": 1000,
+  "map": {
+    "fixed_clear": 0.7448940843367642,
+    "frame_cls": 0.7502758680974434,
+    "object": 0.567283142657157,
+    "geom": 0.7413832295475395,
+    "geom_conf": 0.7372152674729248,
+    "geom_clocs": 0.70848374285245
+  },
+  "object_vs_frame_cls": {
+    "diff": -0.18299272544028644,
+    "ci95": [
+      -0.19558115185985311,
+      -0.16960122703450936
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 13,
+    "scenes_behind": 212,
+    "sign_test_p_two_sided": 1.687144235327339e-47
+  },
+  "object_vs_fixed_clear": {
+    "diff": -0.17761094167960723,
+    "ci95": [
+      -0.1901618801746618,
+      -0.16465491579045102
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 15,
+    "scenes_behind": 210,
+    "sign_test_p_two_sided": 3.63242599605359e-45
+  },
+  "minimal_vs_frame_cls": {
+    "geom": {
+      "diff": -0.008892638549903853,
+      "ci95": [
+        -0.016638828831538107,
+        -0.0018853189949363557
+      ],
+      "p_one_sided": 0.995004995004995,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 97,
+      "scenes_behind": 125,
+      "sign_test_p_two_sided": 0.06972701006096343
+    },
+    "geom_conf": {
+      "diff": -0.013060600624518637,
+      "ci95": [
+        -0.020830186559840168,
+        -0.006505574425779824
+      ],
+      "p_one_sided": 1.0,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 72,
+      "scenes_behind": 151,
+      "sign_test_p_two_sided": 1.3132519198368144e-07
+    },
+    "geom_clocs": {
+      "diff": -0.04179212524499343,
+      "ci95": [
+        -0.048738306135238954,
+        -0.03475553561740337
+      ],
+      "p_one_sided": 1.0,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 36,
+      "scenes_behind": 188,
+      "sign_test_p_two_sided": 5.1058210836274446e-26
+    }
+  },
+  "frame_cls_vs_fixed_clear": {
+    "diff": 0.005381783760679215,
+    "ci95": [
+      0.0038793682040056177,
+      0.007244231013981603
+    ],
+    "p_one_sided": 0.000999000999000999,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 182,
+    "scenes_behind": 38,
+    "sign_test_p_two_sided": 9.863279232730439e-24
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "dataset": "truckscenes",
+  "alpha": 0.1,
+  "conditions": {
+    "clear0": {
+      "n_objects": 26351,
+      "mean_radius_normalised": 0.5861922805066758,
+      "coverage_normalised": 0.9012940685362985,
+      "coverage_vanilla": 0.9002314902660241,
+      "mean_radius_vanilla": 0.5847271084785461,
+      "scale_to_match_vanilla": 1.002505736448481,
+      "coverage_vanilla_at_matched_radius": 0.9004971348335926,
+      "coverage_conflict": 0.9011043224166065,
+      "mean_radius_conflict": 0.5865933616630831,
+      "scale_to_match_conflict": 0.9993162535026477,
+      "coverage_conflict_at_matched_radius": 0.9010663731926682
+    },
+    "fog1": {
+      "n_objects": 1006,
+      "mean_radius_normalised": 0.6985462133904259,
+      "coverage_normalised": 0.9105367793240556,
+      "coverage_vanilla": 0.878727634194831,
+      "mean_radius_vanilla": 0.5873534679412842,
+      "scale_to_match_vanilla": 1.189311464932488,
+      "coverage_vanilla_at_matched_radius": 0.9095427435387674,
+      "coverage_conflict": 0.8996023856858847,
+      "mean_radius_conflict": 0.626571421044674,
+      "scale_to_match_conflict": 1.1148708509969212,
+      "coverage_conflict_at_matched_radius": 0.9204771371769384
+    },
+    "night1": {
+      "n_objects": 7320,
+      "mean_radius_normalised": 0.5789004074098778,
+      "coverage_normalised": 0.9098360655737705,
+      "coverage_vanilla": 0.9195355191256831,
+      "mean_radius_vanilla": 0.5852043628692627,
+      "scale_to_match_vanilla": 0.9892277709132643,
+      "coverage_vanilla_at_matched_radius": 0.9181693989071038,
+      "coverage_conflict": 0.9218579234972678,
+      "mean_radius_conflict": 0.6076481793373346,
+      "scale_to_match_conflict": 0.9526901043975686,
+      "coverage_conflict_at_matched_radius": 0.9112021857923497
+    },
+    "rain1": {
+      "n_objects": 13469,
+      "mean_radius_normalised": 0.6574351635513204,
+      "coverage_normalised": 0.9094216348652461,
+      "coverage_vanilla": 0.8934590541242854,
+      "mean_radius_vanilla": 0.5849712491035461,
+      "scale_to_match_vanilla": 1.1238760273412127,
+      "coverage_vanilla_at_matched_radius": 0.9100155913579331,
+      "coverage_conflict": 0.9078624990719429,
+      "mean_radius_conflict": 0.6507603892970553,
+      "scale_to_match_conflict": 1.010256884659921,
+      "coverage_conflict_at_matched_radius": 0.9098671022347613
+    },
+    "snow1": {
+      "n_objects": 1705,
+      "mean_radius_normalised": 0.8507940506265894,
+      "coverage_normalised": 0.9178885630498533,
+      "coverage_vanilla": 0.8134897360703812,
+      "mean_radius_vanilla": 0.5819334387779236,
+      "scale_to_match_vanilla": 1.4620126528787907,
+      "coverage_vanilla_at_matched_radius": 0.9102639296187683,
+      "coverage_conflict": 0.839882697947214,
+      "mean_radius_conflict": 0.6861581478603032,
+      "scale_to_match_conflict": 1.2399387127875439,
+      "coverage_conflict_at_matched_radius": 0.9114369501466275
+    }
+  }
+}

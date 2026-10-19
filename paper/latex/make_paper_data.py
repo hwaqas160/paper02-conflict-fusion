@@ -9,6 +9,7 @@ mechanical safeguard against a transcription mismatch between the paper and resu
 """
 import glob
 import json
+import numpy as np
 import shutil
 import sys
 from pathlib import Path
@@ -19,12 +20,16 @@ OUT = Path(__file__).resolve().parent / "autogen_numbers.tex"
 FIGDIR = Path(__file__).resolve().parent / "figures"
 
 FIGURE_MAP = {
+    # weather_panel is real camera/LiDAR/radar sensor data (a photograph, in the guide's sense) -> raster PNG
+    # stays correct. The other five are matplotlib chart/scatter figures with no photographic content, so the
+    # guide's own preference for vector artwork ("Vector drawings: EPS, PDF") applies; plots.save() already
+    # writes a PDF next to every PNG, so this just points the manuscript at the vector copy already on disk.
     "figures/weather_panel.png": "weather_panel.png",
-    "exp1_harm/harm_by_condition.png": "harm_by_condition.png",
-    "exp2_routing/map_by_condition.png": "map_by_condition.png",
-    "exp4_conformal/coverage_transfer.png": "coverage_transfer.png",
-    "exp7_dropout/dropout.png": "dropout.png",
-    "supplementary/forest_headline.png": "forest_headline.png",
+    "exp1_harm/harm_by_condition.pdf": "harm_by_condition.pdf",
+    "exp2_routing/map_by_condition.pdf": "map_by_condition.pdf",
+    "exp4_conformal/coverage_transfer.pdf": "coverage_transfer.pdf",
+    "exp7_dropout/dropout.pdf": "dropout.pdf",
+    "supplementary/forest_headline.pdf": "forest_headline.pdf",
 }
 
 
@@ -39,9 +44,10 @@ def stage_figures():
         else:
             print(f"MISSING FIGURE: {p}", file=sys.stderr)
     # one two-panel figure written by the latest exp8 run (stale single-case files are deleted by exp8 itself)
-    qp = R / "exp8_qualitative" / "qualitative_cases.png"
+    # -- a scatter plot, not a photograph, so the vector PDF goes in the manuscript, same reasoning as above.
+    qp = R / "exp8_qualitative" / "qualitative_cases.pdf"
     if qp.exists():
-        shutil.copyfile(qp, FIGDIR / "qual_pair.png")
+        shutil.copyfile(qp, FIGDIR / "qual_pair.pdf")
         n += 1
     else:
         print(f"MISSING FIGURE: {qp}", file=sys.stderr)
@@ -122,9 +128,9 @@ def r2_macros(macros):
                  "fixed_clear": "FixedClear"}
         for a, v in b["vs_ours"].items():
             suf = camel.get(a, a.title().replace("_", ""))
-            macros[f"RtwoBDiff{suf}"] = num(v["diff"], 4)
-            macros[f"RtwoBLo{suf}"] = num(v["ci95"][0], 4)
-            macros[f"RtwoBHi{suf}"] = num(v["ci95"][1], 4)
+            macros[f"RtwoBDiff{suf}"] = num(v["diff"], 3)
+            macros[f"RtwoBLo{suf}"] = num(v["ci95"][0], 3)
+            macros[f"RtwoBHi{suf}"] = num(v["ci95"][1], 3)
         best = max((a for a in b["vs_ours"]), key=lambda a: b["map"][a]["ADVERSE_POOLED"])
         macros["RtwoBBestName"] = TEX_LABEL[best].split(" \\cite")[0]
         macros["RtwoBBestGap"] = num(b["vs_ours"][best]["diff"], 3)
@@ -170,8 +176,8 @@ def r2_macros(macros):
                for i, r in enumerate(f["per_fold"]) if "ADVERSE_POOLED" in r]
         macros["RtwoFRows"] = rows(out)
         o = f["oof_object_vs_frame_cls"]
-        macros["RtwoFDelta"], macros["RtwoFP"] = num(o["diff"], 4), pc(o["p_one_sided"])
-        macros["RtwoFCILo"], macros["RtwoFCIHi"] = num(o["ci95"][0], 4), num(o["ci95"][1], 4)
+        macros["RtwoFDelta"], macros["RtwoFP"] = num(o["diff"], 3), pc(o["p_one_sided"])
+        macros["RtwoFCILo"], macros["RtwoFCIHi"] = num(o["ci95"][0], 3), num(o["ci95"][1], 3)
         macros["RtwoFWins"] = f"{f['folds_object_beats_frame_cls']}/{f['k']}"
         macros["RtwoFOofObj"] = num(f["oof_adverse_map"]["object"])
         macros["RtwoFOofFrame"] = num(f["oof_adverse_map"]["frame_cls"])
@@ -210,9 +216,9 @@ def r2_macros(macros):
         macros["RtwoANScenes"] = str(a["n_scenes"])
         macros["RtwoAScenesCond"] = ", ".join(f"{k.rstrip('01')} {v}" for k, v in a["scenes_per_condition"].items())
         for key, lab in (("A1", "One"), ("A3", "Three")):
-            macros[f"RtwoA{lab}Delta"] = num(a[key]["diff"], 4)
+            macros[f"RtwoA{lab}Delta"] = num(a[key]["diff"], 3)
             macros[f"RtwoA{lab}P"] = pc(a[key]["p_one_sided"])
-            macros[f"RtwoA{lab}CILo"], macros[f"RtwoA{lab}CIHi"] = num(a[key]["ci95"][0], 4), num(a[key]["ci95"][1], 4)
+            macros[f"RtwoA{lab}CILo"], macros[f"RtwoA{lab}CIHi"] = num(a[key]["ci95"][0], 3), num(a[key]["ci95"][1], 3)
             macros[f"RtwoA{lab}Refuted"] = "refuted" if a[key]["refuted"] else "not refuted"
         macros["RtwoAOneNScenes"] = str(a["A1"]["n_scenes"])
         macros["RtwoAOneFolds"] = f"{sum(x > 0 for x in a['fold_deltas_A1'])}/{len(a['fold_deltas_A1'])}"
@@ -269,7 +275,7 @@ def r2_macros(macros):
                                             num(v["flagged_out_of_support"]), num(v["fnr_in_support"])]
                                            for t, v in a["E"].items()])
         o = a["official"]
-        macros["RtwoAOffDelta"], macros["RtwoAOffP"] = num(o["A1"]["diff"], 4), pc(o["A1"]["p_one_sided"])
+        macros["RtwoAOffDelta"], macros["RtwoAOffP"] = num(o["A1"]["diff"], 3), pc(o["A1"]["p_one_sided"])
         macros["RtwoAOffObj"] = num(o["map"]["ADVERSE_POOLED"]["object"])
         macros["RtwoAOffFrame"] = num(o["map"]["ADVERSE_POOLED"]["frame_cls"])
     if b and a:
@@ -293,11 +299,11 @@ def r2_macros(macros):
                        [f"{o['diff']:+.4f} ({pv(o['p_one_sided'])})"])
         macros["RtwoDRows"] = rows(out)
         o = d["D1_normalised"]["object_vs_frame_cls"]
-        macros["RtwoDOneDelta"], macros["RtwoDOneP"] = num(o["diff"], 4), pc(o["p_one_sided"])
+        macros["RtwoDOneDelta"], macros["RtwoDOneP"] = num(o["diff"], 3), pc(o["p_one_sided"])
         macros["RtwoDOneRefuted"] = "refuted" if d["D1_refuted"] else "not refuted"
         kmax = str(max(int(k) for k in d["D2"]))
         o = d["D2"][kmax]["object_vs_frame_cls"]
-        macros["RtwoDTwoDelta"], macros["RtwoDTwoP"] = num(o["diff"], 4), pc(o["p_one_sided"])
+        macros["RtwoDTwoDelta"], macros["RtwoDTwoP"] = num(o["diff"], 3), pc(o["p_one_sided"])
         macros["RtwoDTwoRefuted"] = "refuted" if d["D2_refuted"] else "not refuted"
         macros["RtwoDTwoMonotone"] = "yes" if d["D2_monotone"] else "no"
         macros["RtwoDNDrives"] = str(d["n_drives"])
@@ -362,8 +368,8 @@ def r3_macros(macros):
         macros["RthreeBoOrig"] = num(b["map"]["ADVERSE_POOLED"]["original"])
         macros["RthreeBoSt"] = num(b["map"]["ADVERSE_POOLED"]["set_transformer"])
         macros["RthreeBoVsOrigDiff"] = f"{b['vs']['original']['diff']:+.3f}"
-        macros["RthreeBoVsOrigLo"] = num(b["vs"]["original"]["ci95"][0], 4)
-        macros["RthreeBoVsOrigHi"] = num(b["vs"]["original"]["ci95"][1], 4)
+        macros["RthreeBoVsOrigLo"] = num(b["vs"]["original"]["ci95"][0], 3)
+        macros["RthreeBoVsOrigHi"] = num(b["vs"]["original"]["ci95"][1], 3)
         macros["RthreeBoVsOrigP"] = pc(b["vs"]["original"]["p_one_sided"])
         macros["RthreeBoVsStDiff"] = f"{b['vs']['set_transformer']['diff']:+.3f}"
         macros["RthreeBoVsStP"] = pc(b["vs"]["set_transformer"]["p_one_sided"])
@@ -387,6 +393,237 @@ def r3_macros(macros):
             macros["RthreeCvVsStHi"] + "]).")
 
 
+def r4_macros(macros):
+    a = load("r4", "r4_1_decision_unit.json")
+    if a:
+        macros["RfourOneObjMap"] = num(a["map_object"])
+        macros["RfourOnePoolMap"] = num(a["map_frame_pooled"])
+        macros["RfourOneDiff"] = f"{a['primary_scene_cluster']['diff']:+.3f}"
+        macros["RfourOneLo"] = f"{a['primary_scene_cluster']['ci95'][0]:+.3f}"
+        macros["RfourOneHi"] = f"{a['primary_scene_cluster']['ci95'][1]:+.3f}"
+        macros["RfourOneP"] = pc(a["primary_scene_cluster"]["p_one_sided"])
+        macros["RfourOneNScenes"] = str(a["primary_scene_cluster"]["n_scenes"])
+        macros["RfourOnePoolParams"] = f"{a['params']['frame_pooled']:,}".replace(",", "{,}")
+        macros["RfourOneRefuted"] = "refuted" if a["refuted"] else "not refuted"
+    b = load("truckscenes", "r4", "r4_2_truckscenes_decision_unit.json")
+    if b:
+        macros["RfourTwoObjMap"] = num(b["oof_map_object"])
+        macros["RfourTwoPoolMap"] = num(b["oof_map_frame_pooled"])
+        macros["RfourTwoDiff"] = f"{b['primary_scene_cluster']['diff']:+.3f}"
+        macros["RfourTwoLo"] = f"{b['primary_scene_cluster']['ci95'][0]:+.3f}"
+        macros["RfourTwoHi"] = f"{b['primary_scene_cluster']['ci95'][1]:+.3f}"
+        macros["RfourTwoP"] = pc(b["primary_scene_cluster"]["p_one_sided"])
+        macros["RfourTwoNScenes"] = str(b["primary_scene_cluster"]["n_scenes"])
+        macros["RfourTwoWins"] = f"{b['folds_object_ahead']}/{len(b['per_fold'])}"
+        macros["RfourTwoRefuted"] = "refuted" if b["refuted"] else "not refuted"
+    camsum = load("truckscenes", "r4", "candidates_stronger_cam", "truckscenes", "_summary.json")
+    if camsum:
+        n_box = sum(v["n_camera_boxes"] for v in camsum.values())
+        n_over = sum(v["n_lidar_overridden"] for v in camsum.values())
+        macros["RfourFourOverrideRate"] = pct(n_over / n_box) if n_box else "?"
+    d = load("r4", "stronger_cam", "r4", "r4_4_stronger_camera.json")
+    if d:
+        macros["RfourFourObjMap"] = num(d["oof_map_object"])
+        macros["RfourFourFrameMap"] = num(d["oof_map_frame_cls"])
+        macros["RfourFourDiff"] = f"{d['primary_scene_cluster']['diff']:+.3f}"
+        macros["RfourFourLo"] = f"{d['primary_scene_cluster']['ci95'][0]:+.3f}"
+        macros["RfourFourHi"] = f"{d['primary_scene_cluster']['ci95'][1]:+.3f}"
+        macros["RfourFourP"] = pc(d["primary_scene_cluster"]["p_one_sided"])
+        macros["RfourFourNScenes"] = str(d["primary_scene_cluster"]["n_scenes"])
+        macros["RfourFourWins"] = f"{d['folds_object_ahead']}/{len(d['per_fold'])}"
+        macros["RfourFourRefuted"] = "refuted" if d["refuted"] else "not refuted"
+    e3 = load("r4", "e3_per_scene_boreas.json")
+    if e3:
+        diffs = [r["diff"] for r in e3["rows"]]
+        macros["EThreeNScenes"] = str(e3["n_scenes"])
+        macros["EThreeNAhead"] = str(e3["n_object_ahead"])
+        macros["EThreeMinDiff"] = num(min(diffs), 3)
+        macros["EThreeMaxDiff"] = num(max(diffs), 3)
+    c = load("r4", "r4_3_support_check.json")
+    if c:
+        au = c["aurocs"]
+        macros["RfourThreeSupportAuroc"] = num(au["support_check"])
+        macros["RfourThreeMahaAuroc"] = num(au["mahalanobis"])
+        macros["RfourThreeKnnAuroc"] = num(au["knn10"])
+        macros["RfourThreeLogitAuroc"] = num(au["logistic_density_ratio"])
+        macros["RfourThreeBestBaseline"] = num(c["best_baseline"])
+        macros["RfourThreeNCal"] = str(c["n_cal"])
+        macros["RfourThreeNPos"] = str(c["n_pos"])
+        macros["RfourThreeNNeg"] = str(c["n_neg"])
+        macros["RfourThreeRefuted"] = "refuted" if c["refuted"] else "not refuted"
+
+
+E10_LABEL = {"frame_cls": "Per-frame weather classifier",
+             "geom": "Per-object: range and azimuth only",
+             "geom_conf": "Per-object: + detector scores and presence",
+             "geom_clocs": "Per-object: + detector and conflict features, no probes",
+             "object": "\\textbf{Per-object: full router (ours)}"}
+
+
+def e10_macros(macros):
+    bo = load("r4", "e10_minimal_boreas.json")
+    ts = load("truckscenes", "r4", "e10_minimal_truckscenes.json")
+    order = ("frame_cls", "geom", "geom_conf", "geom_clocs", "object")
+
+    def cell(res, arm, key):
+        if res is None:
+            return "--"
+        if arm == "frame_cls":
+            return "--"
+        v = res["object_vs_frame_cls"] if arm == "object" else res["vs_frame_cls"][arm]
+        return f"{v['diff']:+.3f} ({v['scenes_ahead']}/{v['n_scenes']})"
+
+    table = []
+    for arm in order:
+        row = [E10_LABEL[arm], f"{bo['params'][arm]:,}".replace(",", "{,}") if bo else "--",
+               num(bo["map"][arm]) if bo else "--", cell(bo, arm, "bo"),
+               num(ts["oof_map"][arm]) if ts else "--", cell(ts, arm, "ts")]
+        table.append(row)
+    macros["EtenRows"] = rows(table)
+    short = {"frame_cls": "Per-frame classifier", "geom": "Range, azimuth", "geom_conf": "+ detector scores",
+             "geom_clocs": "+ conflict features", "object": "\\textbf{Full router}"}
+    macros["EtenRowsShort"] = rows([[short[a]] + r[1:] for a, r in zip(order, table)])
+    for tag, res in (("Bo", bo), ("Ts", ts)):
+        if not res:
+            continue
+        full = res["object_vs_frame_cls"]
+        clocs = res["vs_frame_cls"]["geom_clocs"]
+        macros[f"Eten{tag}FullDiff"] = f"{full['diff']:+.3f}"
+        macros[f"Eten{tag}NScenes"] = str(full["n_scenes"])
+        macros[f"Eten{tag}FullAhead"] = str(full["scenes_ahead"])
+        macros[f"Eten{tag}FullSignP"] = pc(full["sign_test_p_two_sided"])
+        macros[f"Eten{tag}GeomDiff"] = f"{res['vs_frame_cls']['geom']['diff']:+.3f}"
+        macros[f"Eten{tag}ConfDiff"] = f"{res['vs_frame_cls']['geom_conf']['diff']:+.3f}"
+        macros[f"Eten{tag}ClocsDiff"] = f"{clocs['diff']:+.3f}"
+        macros[f"Eten{tag}ClocsAhead"] = str(clocs["scenes_ahead"])
+        macros[f"Eten{tag}ClocsSignP"] = pc(clocs["sign_test_p_two_sided"])
+        macros[f"Eten{tag}ClocsShare"] = pct(clocs["diff"] / full["diff"], 0)
+        macros[f"Eten{tag}GeomShare"] = pct(res["vs_frame_cls"]["geom"]["diff"] / full["diff"], 0)
+        inc = res["object_vs_minimal"]["geom_clocs"]
+        macros[f"Eten{tag}IncDiff"] = f"{inc['diff']:+.3f}"
+        macros[f"Eten{tag}IncLo"] = f"{inc['ci95'][0]:+.3f}"
+        macros[f"Eten{tag}IncHi"] = f"{inc['ci95'][1]:+.3f}"
+        macros[f"Eten{tag}IncAhead"] = str(inc["scenes_ahead"])
+        macros[f"Eten{tag}IncBehind"] = str(inc["scenes_behind"])
+        macros[f"Eten{tag}IncBootP"] = pc(inc["p_one_sided"])
+        macros[f"Eten{tag}IncSignP"] = pc(inc["sign_test_p_two_sided"])
+        macros[f"Eten{tag}NBoot"] = f"{res['n_boot']:,}".replace(",", "{,}")
+
+
+def e11_macros(macros):
+    r = load("truckscenes", "r4", "e11_per_condition.json")
+    if not r:
+        return
+    names = {"fog1": "Fog", "snow1": "Snow", "rain1": "Rain", "night1": "Night", "clear0": "Clear (reference)"}
+    table = []
+    for t in ("fog1", "snow1", "rain1", "night1", "clear0"):
+        c = r["conditions"].get(t)
+        if not c:
+            continue
+        table.append([names[t], str(c["n_scenes"]), num(c["map_object"]), num(c["map_frame_cls"]),
+                      f"{c['diff']:+.3f} [{c['ci95'][0]:+.3f}, {c['ci95'][1]:+.3f}]",
+                      f"{c['scenes_ahead']}/{c['n_scenes']}", pv(c["sign_test_p_two_sided"])])
+    macros["EelevenRows"] = rows(table)
+    macros["EelevenRowsShort"] = rows([[r[0].replace(" (reference)", ""), r[1], r[2], r[3], r[4], r[5]] for r in table])
+    macros["EelevenNBoot"] = f"{r['n_boot']:,}".replace(",", "{,}")
+    adv = [r["conditions"][t] for t in ("fog1", "snow1", "rain1", "night1") if t in r["conditions"]]
+    macros["EelevenMinDiff"] = f"{min(c['diff'] for c in adv):+.3f}"
+    macros["EelevenMaxDiff"] = f"{max(c['diff'] for c in adv):+.3f}"
+    macros["EelevenFogAhead"] = f"{r['conditions']['fog1']['scenes_ahead']}/{r['conditions']['fog1']['n_scenes']}"
+    macros["EelevenSnowAhead"] = f"{r['conditions']['snow1']['scenes_ahead']}/{r['conditions']['snow1']['n_scenes']}"
+
+
+def e12_macros(macros):
+    r = load("truckscenes", "r4", "e12_matched_radius.json")
+    if not r:
+        return
+    for tag, key in (("Snow", "snow1"), ("Fog", "fog1"), ("Rain", "rain1")):
+        c = r["conditions"].get(key)
+        if not c:
+            continue
+        macros[f"Etwelve{tag}NormCov"] = num(c["coverage_normalised"])
+        macros[f"Etwelve{tag}NormRad"] = num(c["mean_radius_normalised"], 2)
+        macros[f"Etwelve{tag}VanRad"] = num(c["mean_radius_vanilla"], 2)
+        macros[f"Etwelve{tag}VanScale"] = num(c["scale_to_match_vanilla"], 2)
+        macros[f"Etwelve{tag}VanMatched"] = num(c["coverage_vanilla_at_matched_radius"])
+        macros[f"Etwelve{tag}ConfMatched"] = num(c["coverage_conflict_at_matched_radius"])
+
+
+def e13_macros(macros):
+    z = load("truckscenes", "r4", "e13_sim2real.json")
+    if z:
+        macros["EthirteenObj"] = num(z["map"]["object"])
+        macros["EthirteenFrame"] = num(z["map"]["frame_cls"])
+        macros["EthirteenFixed"] = num(z["map"]["fixed_clear"])
+        c = z["object_vs_frame_cls"]
+        macros["EthirteenDiff"] = f"{c['diff']:+.3f}"
+        macros["EthirteenBehind"] = str(c["scenes_behind"])
+        macros["EthirteenNScenes"] = str(c["n_scenes"])
+        macros["EthirteenGeomDiff"] = f"{z['minimal_vs_frame_cls']['geom']['diff']:+.3f}"
+        macros["EthirteenClocsDiff"] = f"{z['minimal_vs_frame_cls']['geom_clocs']['diff']:+.3f}"
+    r = load("truckscenes", "r4", "e13_sim2real_recentred.json")
+    if r:
+        macros["EthirteenRecObj"] = num(r["map"]["object"])
+        macros["EthirteenRecFrame"] = num(r["map"]["frame_cls"])
+        c = r["object_vs_frame_cls"]
+        macros["EthirteenRecDiff"] = f"{c['diff']:+.3f}"
+        macros["EthirteenRecLo"] = f"{c['ci95'][0]:+.3f}"
+        macros["EthirteenRecHi"] = f"{c['ci95'][1]:+.3f}"
+        macros["EthirteenRecAhead"] = str(c["scenes_ahead"])
+        macros["EthirteenRecBehind"] = str(c["scenes_behind"])
+        macros["EthirteenRecSignP"] = pc(c["sign_test_p_two_sided"])
+    n = load("truckscenes", "r4", "e13_sim2real_neutral.json")
+    if n:
+        macros["EthirteenNeuObj"] = num(n["map"]["object"])
+
+
+def e8c_macros(macros):
+    ev = [load("ts_detector", f"eval_fold{k}.json") for k in (0, 1)]
+    if all(ev):
+        macros["EeightcKittiAp"] = num(np.mean([e["kitti"]["mean"] for e in ev]))
+        macros["EeightcIndomainAp"] = num(np.mean([e["in_domain"]["mean"] for e in ev]))
+        macros["EeightcKittiApFive"] = num(np.mean([e["kitti"]["0.5"] for e in ev]))
+        macros["EeightcIndomainApFive"] = num(np.mean([e["in_domain"]["0.5"] for e in ev]))
+        for cond, nm in (("snow", "Snow"), ("fog", "Fog")):
+            macros[f"Eeightc{nm}Kitti"] = num(np.mean([e["kitti_by_condition"][cond] for e in ev]))
+            macros[f"Eeightc{nm}Indomain"] = num(np.mean([e["in_domain_by_condition"][cond] for e in ev]))
+        macros["EeightcEvalFrames"] = f"{sum(e['n_frames'] for e in ev):,}".replace(",", "{,}")
+    r = load("ts_detector", "r4", "e8c_indomain_router.json")
+    if not r:
+        return
+    m = r["oof_map"]
+    for k, name in (("object", "Obj"), ("frame_cls", "Frame"), ("fixed_clear", "Fixed"), ("frame_pooled", "Pooled"),
+                    ("geom_clocs", "Clocs")):
+        macros[f"Eeightc{name}Map"] = num(m[k])
+    c = r["primary_object_vs_frame_cls"]
+    macros["EeightcDiff"] = f"{c['diff']:+.5f}"
+    macros["EeightcLo"], macros["EeightcHi"] = f"{c['ci95'][0]:+.3f}", f"{c['ci95'][1]:+.3f}"
+    macros["EeightcP"] = pc(c["p_one_sided"])
+    macros["EeightcNScenes"] = str(c["n_scenes"])
+    macros["EeightcAhead"] = str(c["scenes_ahead"])
+    macros["EeightcBehind"] = str(c["scenes_behind"])
+    macros["EeightcFolds"] = f"{r['folds_object_ahead_of_frame_cls']}/{len(r['per_fold'])}"
+    macros["EeightcRefuted"] = "refuted" if r["primary_refuted"] else "not refuted"
+    macros["EeightcNBoot"] = f"{r['n_boot_primary']:,}".replace(",", "{,}")
+    rows_ = []
+    for i, f in enumerate(r["per_fold"]):
+        fm = f["map"]
+        rows_.append([str(i + 1), str(f["n_test_scenes"]), num(fm["fixed_clear"]), num(fm["frame_cls"]), num(fm["object"]),
+                      f"{fm['object'] - fm['frame_cls']:+.4f}"])
+    macros["EeightcFoldRows"] = rows(rows_)
+    macros["EeightcFixedDiff"] = f"{r['object_vs_fixed_clear']['diff']:+.3f}"
+    macros["EeightcOrigDiff"] = macros.get("RtwoAOneDelta", "+0.064")
+    q = r["object_vs_frame_pooled"]
+    macros["EeightcPooledDiff"] = f"{q['diff']:+.3f}"
+    macros["EeightcPooledP"] = pc(q["p_one_sided"])
+    macros["EeightcPooledFolds"] = f"{r['folds_object_ahead_of_frame_pooled']}/{len(r['per_fold'])}"
+    g = r["geom_clocs_vs_frame_cls"]
+    macros["EeightcClocsDiff"] = f"{g['diff']:+.3f}"
+    inc = r["object_vs_geom_clocs"]
+    macros["EeightcIncDiff"] = f"{inc['diff']:+.3f}"
+    macros["EeightcIncLo"], macros["EeightcIncHi"] = f"{inc['ci95'][0]:+.3f}", f"{inc['ci95'][1]:+.3f}"
+
+
 def main():
     macros = {}
 
@@ -408,15 +645,15 @@ def main():
     e2 = load("exp2_routing", "exp2_routing.json")
     if e2:
         h2 = e2["H2"]["ADVERSE_POOLED"]
-        macros["DeltaMapObjFrame"] = num(h2["map_object_minus_frame_cls"], 4)
+        macros["DeltaMapObjFrame"] = num(h2["map_object_minus_frame_cls"], 3)
         macros["PValObjFrame"] = num(h2["p_one_sided"], 3)
-        macros["DeltaMapObjFeats"] = num(h2["map_object_minus_frame_feats"], 4)
-        macros["DeltaMapObjConf"] = num(h2["map_object_minus_confidence"], 4)
+        macros["DeltaMapObjFeats"] = num(h2["map_object_minus_frame_feats"], 3)
+        macros["DeltaMapObjConf"] = num(h2["map_object_minus_confidence"], 3)
         macros["AurocObj"] = num(h2["auroc_object"])
         macros["AurocFrameCls"] = num(h2["auroc_frame_cls"])
         macros["AurocConf"] = num(h2["auroc_confidence"])
         h2h = e2["H2"].get("HELDOUT", {})
-        macros["DeltaMapObjFrameHeldout"] = num(h2h.get("map_object_minus_frame_cls"), 4)
+        macros["DeltaMapObjFrameHeldout"] = num(h2h.get("map_object_minus_frame_cls"), 3)
         macros["HTwoRefuted"] = "refuted" if e2["H2"]["refuted"] else "not refuted"
         for arm, label in (("fixed_clear", "Fixed"), ("fixed", "FixedAll"), ("confidence", "Conf"),
                            ("frame_cls", "FrameCls"), ("frame_oracle", "FrameOracle"),
@@ -437,7 +674,7 @@ def main():
                   "-det_feats", "-conflict", "-confidence", "-frame_feats"):
             if k in e3:
                 key = "Abl" + k.replace("-", "No").replace("_", "").title().replace(" ", "")
-                macros[key.replace("-", "")] = num(full.get("ADVERSE_POOLED", 0) - e3[k].get("ADVERSE_POOLED", 0), 4)
+                macros[key.replace("-", "")] = num(full.get("ADVERSE_POOLED", 0) - e3[k].get("ADVERSE_POOLED", 0), 3)
 
     e4 = load("exp4_conformal", "exp4_conformal.json")
     if e4:
@@ -462,7 +699,7 @@ def main():
         macros["CadcMapObjCIHi"] = num(e5["map"]["object"]["ALL_ci"][1])
         macros["CadcMapFrameCls"] = num(e5["map"]["frame_cls"]["ALL"])
         macros["CadcMapFixed"] = num(e5["map"]["fixed_clear"]["ALL"])
-        macros["CadcDeltaObjFrame"] = num(e5["object_minus_frame_cls"]["diff"], 4)
+        macros["CadcDeltaObjFrame"] = num(e5["object_minus_frame_cls"]["diff"], 3)
         macros["CadcPValObjFrame"] = num(e5["object_minus_frame_cls"]["p_one_sided"], 3)
         macros["CadcAll"] = num(e5["ap_level"]["all"])
         macros["CadcMinusCamera"] = num(e5["ap_level"]["minus_camera"])
@@ -509,13 +746,13 @@ def main():
     if s1:
         adv = s1.get("ADVERSE_POOLED", {})
         ovf = adv.get("object_vs_frame_cls", {})
-        macros["SceneDeltaObjFrame"] = num(ovf.get("diff"), 4)
-        macros["SceneCILo"] = num(ovf.get("ci95", [None, None])[0], 4)
-        macros["SceneCIHi"] = num(ovf.get("ci95", [None, None])[1], 4)
+        macros["SceneDeltaObjFrame"] = num(ovf.get("diff"), 3)
+        macros["SceneCILo"] = num(ovf.get("ci95", [None, None])[0], 3)
+        macros["SceneCIHi"] = num(ovf.get("ci95", [None, None])[1], 3)
         macros["ScenePVal"] = num(ovf.get("p_one_sided"), 3)
         macros["SceneWins"] = esc(ovf.get("scenes_won"))
         fvf = adv.get("frame_cls_vs_fixed_clear", {})
-        macros["SceneDeltaFrameFixed"] = num(fvf.get("diff"), 4)
+        macros["SceneDeltaFrameFixed"] = num(fvf.get("diff"), 3)
         macros["SceneFrameFixedP"] = num(fvf.get("p_one_sided"), 3)
 
     s2 = load("supplementary", "s2_decomposition.json")
@@ -549,7 +786,7 @@ def main():
         macros["NoRadarFrameClsAdverse"] = num(b.get("frame_cls", {}).get("ADVERSE_POOLED"))
         macros["NoRadarFixedAdverse"] = num(b.get("fixed_clear", {}).get("ADVERSE_POOLED"))
         h2 = s4.get("boreas_H2", {}).get("ADVERSE_POOLED", {})
-        macros["NoRadarDelta"] = num(h2.get("diff"), 4)
+        macros["NoRadarDelta"] = num(h2.get("diff"), 3)
         macros["NoRadarPFrame"] = num(h2.get("p_frame"), 3)
         macros["NoRadarPScene"] = num(h2.get("p_scene"), 3)
         c = s4.get("cadc", {})
@@ -557,7 +794,7 @@ def main():
             macros["NoRadarCadcObj"] = num(c["object"]["mAP"])
             macros["NoRadarCadcFrameCls"] = num(c.get("frame_cls", {}).get("mAP"))
             ovf = c.get("object_vs_frame_cls", {})
-            macros["NoRadarCadcDelta"] = num(ovf.get("diff"), 4)
+            macros["NoRadarCadcDelta"] = num(ovf.get("diff"), 3)
             macros["NoRadarCadcPDrive"] = num(ovf.get("p_drive_cluster"), 3)
 
     s5 = load("supplementary", "s5_baselines.json")
@@ -588,6 +825,12 @@ def main():
 
     r2_macros(macros)
     r3_macros(macros)
+    r4_macros(macros)
+    e10_macros(macros)
+    e11_macros(macros)
+    e12_macros(macros)
+    e13_macros(macros)
+    e8c_macros(macros)
 
     lines = ["% AUTO-GENERATED by paper/latex/make_paper_data.py — do not edit by hand.",
              "% Regenerate after any change to results/*.json. \\DefNum (main.tex) unconditionally overwrites",

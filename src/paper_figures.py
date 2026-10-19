@@ -84,6 +84,19 @@ def forest(R):
     rows.append(("V2 vs. set-transformer (TruckScenes)", v["diff"], v["ci95"][0], v["ci95"][1], "frame_cls"))
     v = r3bo["vs"]["original"]
     rows.append(("V2 vs. original router (Boreas)", v["diff"], v["ci95"][0], v["ci95"][1], "frame_cls"))
+    r4_1 = _load(R, "r4", "r4_1_decision_unit.json")
+    r4_2 = _load(R / "truckscenes" / "r4", "r4_2_truckscenes_decision_unit.json")
+    if r4_1 and r4_2:
+        groups.append((len(rows), "R4 — equal-information per-frame control"))
+        c = r4_1["primary_scene_cluster"]
+        rows.append(("frame-pooled, same inputs (Boreas)", c["diff"], c["ci95"][0], c["ci95"][1], "object"))
+        c = r4_2["primary_scene_cluster"]
+        rows.append(("frame-pooled, same inputs (TruckScenes)", c["diff"], c["ci95"][0], c["ci95"][1], "object"))
+    r4_4 = _load(R / "r4" / "stronger_cam" / "r4", "r4_4_stronger_camera.json")
+    if r4_4:
+        groups.append((len(rows), "R4-4 — stronger (LiDAR-projected) camera, TruckScenes"))
+        c = r4_4["primary_scene_cluster"]
+        rows.append(("per-frame classifier", c["diff"], c["ci95"][0], c["ci95"][1], "object"))
     plots.forest(rows, R / "supplementary" / "forest_headline.png",
                 xlabel="Car mAP difference (positive favours the router, or V2 for the R3 rows)", groups=groups)
 

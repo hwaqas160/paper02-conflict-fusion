@@ -1,0 +1,42 @@
+{
+  "train": "Boreas simulated weather only",
+  "recentred_features": [
+    "radar_probes.r_bg_pow",
+    "radar_probes.r_mean_pow",
+    "frame_feats.f_r_log_hits",
+    "frame_feats.f_r_hit_pow",
+    "frame_feats.f_r_noise"
+  ],
+  "n_boot": 1000,
+  "map": {
+    "fixed_clear": 0.7448940843367642,
+    "frame_cls": 0.7524024188835067,
+    "object": 0.4754210525636727
+  },
+  "object_vs_frame_cls": {
+    "diff": -0.276981366319834,
+    "ci95": [
+      -0.30233719307410045,
+      -0.2515334156742701
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 8,
+    "scenes_behind": 217,
+    "sign_test_p_two_sided": 5.529949043716073e-54
+  },
+  "object_vs_fixed_clear": {
+    "diff": -0.2694730317730915,
+    "ci95": [
+      -0.29450627493123926,
+      -0.24443681062916073
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 11,
+    "scenes_behind": 214,
+    "sign_test_p_two_sided": 5.714400361738665e-50
+  }
+}

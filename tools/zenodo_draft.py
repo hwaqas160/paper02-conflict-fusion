@@ -17,20 +17,18 @@ API = "https://zenodo.org/api/deposit/depositions"
 ROOT = Path(__file__).resolve().parents[1]
 DESCRIPTION = (
     "<p>Code, tests, configuration, pre-registrations (with dated amendments), aggregate results and figures, and the "
-    "manuscript source for <em>Which Sensor to Believe? Per-object, degradation-conditioned arbitration over frozen "
-    "camera, LiDAR and radar detectors, with conformal guarantees</em>.</p>"
+    "manuscript source for <em>When does per-object arbitration help? Late fusion over frozen camera, LiDAR and radar detectors in simulated and real adverse weather</em>.</p>"
     "<p>A small router (~18k parameters) reads per-object degradation probes and cross-sensor conflict from cached outputs of "
     "frozen detectors and sets the parameters of one interpretable late-fusion rule; a conformal layer attaches a coverage "
     "guarantee. Evaluated on Boreas (with graded weather simulation), CADC (real snow) and MAN TruckScenes (real rain, snow, "
-    "fog, night; 4D radar). All negative and refuted pre-registered outcomes are reported in <code>notes/</code>.</p>"
+    "fog, night; 4D radar). All negative and refuted pre-registered outcomes are reported in <code>notes/</code>, including the finding that the per-object advantage disappears when the LiDAR detector is fine-tuned in domain.</p>"
     "<p><strong>Not included:</strong> the Boreas, CADC and MAN TruckScenes datasets (obtain them from their owners; "
     "TruckScenes is CC BY-NC-SA 4.0), detector caches, fitted-model pickles and third-party checkpoints. "
     "Every number in the paper is generated from the files in <code>results/</code> by "
     "<code>paper/latex/make_paper_data.py</code>.</p>")
 METADATA = {
     "upload_type": "software",
-    "title": "Code, pre-registrations and results for: Which Sensor to Believe? Per-object, degradation-conditioned "
-             "arbitration over frozen camera, LiDAR and radar detectors, with conformal guarantees",
+    "title": "Code, pre-registrations and results for: When does per-object arbitration help? Late fusion over frozen camera, LiDAR and radar detectors in simulated and real adverse weather",
     "description": DESCRIPTION,
     "creators": [
         {"name": "Saleem, Hassan Waqas", "affiliation": "School of Electrical Engineering and Computer Science (SEECS), "

@@ -1,0 +1,61 @@
+{
+  "registration": "R4-4",
+  "pool": "ADVERSE_POOLED, out-of-fold, stronger (LiDAR-projected) camera",
+  "n_boot": 10000,
+  "oof_map_object": 0.7793325917357177,
+  "oof_map_frame_cls": 0.7137961705798415,
+  "primary_scene_cluster": {
+    "diff": 0.06553642115587621,
+    "ci95": [
+      0.053055289171445315,
+      0.07791116507959561
+    ],
+    "p_one_sided": 9.999000099990002e-05,
+    "n_scenes": 230,
+    "scenes_won": null
+  },
+  "folds_object_ahead": 5,
+  "per_fold": [
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.7890137099485013,
+        "frame_cls": 0.744844985503642
+      },
+      "object_minus_frame_cls": 0.04416872444485931
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.7806075777973682,
+        "frame_cls": 0.680780481631477
+      },
+      "object_minus_frame_cls": 0.09982709616589125
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.745393670036889,
+        "frame_cls": 0.6909575945074624
+      },
+      "object_minus_frame_cls": 0.05443607552942653
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "object": 0.7946572016585759,
+        "frame_cls": 0.7256597215492857
+      },
+      "object_minus_frame_cls": 0.06899748010929019
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "object": 0.7874830856039714,
+        "frame_cls": 0.7242501226458686
+      },
+      "object_minus_frame_cls": 0.06323296295810277
+    }
+  ],
+  "refuted": false
+}

@@ -1,10 +1,13 @@
 """Figure style for the paper: a clean, modern publication theme, exported at 600 dpi.
 
-White ground, one axis per chart, hairline axes, recessive horizontal grid, sans-serif type matching the
-manuscript body, legend above the plot, no in-figure title (the LaTeX caption carries it). Colours are the
-dataviz reference palette in its fixed order; an arm keeps its colour in every figure regardless of how many
-arms a figure shows. Every figure is sized to the printed double-column width (FIG_W inches) so that type is
-the size it appears on the page, and is saved as a 600-dpi PNG plus a vector PDF.
+White ground, closed-box axes (all four spines, matching the reference figures in paper/sample figures/),
+recessive horizontal grid, sans-serif type matching the manuscript body, legend above the plot, no in-figure
+title (the LaTeX caption carries it). Colours are the dataviz reference palette in its fixed order; an arm keeps
+its colour -- and, now, its hatch pattern and line marker -- in every figure regardless of how many arms a
+figure shows, so redundant (not just colour) encoding survives grayscale printing and colour-blind readers, the
+same reasoning behind the hatching in the reference figures. Every figure is sized to the printed double-column
+width (FIG_W inches) so that type is the size it appears on the page, and is saved as a 600-dpi PNG plus a
+vector PDF.
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -15,6 +18,12 @@ DPI = 600
 FIG_W = 7.0          # inches: full text width of the two-column class (figure* at width=\linewidth)
 SURFACE, INK, INK2, MUTED, GRID = "#ffffff", "#111827", "#4b5563", "#9ca3af", "#e5e7eb"
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
+# Paired with SERIES by position (not by name), so any subset of arms/modalities picks up the same hatch/marker
+# wherever that colour appears, the same "an arm keeps its identity everywhere" rule the colours already follow.
+HATCH = [None, "//", "..", "xx", "\\\\", "oo", "++", "--"]
+MARKER = ["o", "s", "^", "v", "D", "P", "X", "*"]
+COLOR_HATCH = dict(zip(SERIES, HATCH))
+COLOR_MARKER = dict(zip(SERIES, MARKER))
 ARM_ORDER = ["fixed_clear", "fixed", "confidence", "frame_cls", "frame_oracle", "frame_feats", "object"]
 ARM_LABEL = {"fixed_clear": "Fixed (clear-fit, status quo)", "fixed": "Fixed weights", "confidence": "Confidence-only",
              "frame_cls": "Per-frame weather classifier", "frame_oracle": "Per-frame oracle weather",
@@ -29,15 +38,14 @@ plt.rcParams.update({
     "xtick.color": INK2, "ytick.color": INK2, "xtick.major.width": 0.7, "ytick.major.width": 0.7,
     "xtick.major.size": 2.5, "ytick.major.size": 2.5, "text.color": INK, "figure.facecolor": SURFACE,
     "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE, "figure.dpi": 150, "savefig.dpi": DPI,
-    "axes.spines.top": False, "axes.spines.right": False, "pdf.fonttype": 42, "ps.fonttype": 42,
+    "axes.spines.top": True, "axes.spines.right": True, "hatch.linewidth": 0.5, "pdf.fonttype": 42, "ps.fonttype": 42,
 })
 
 
 def style(ax, ylabel=None, xlabel=None, grid_axis="y"):
     ax.set_facecolor(SURFACE)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
-    for s in ("left", "bottom"):
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(True)
         ax.spines[s].set_color(MUTED)
         ax.spines[s].set_linewidth(0.7)
     ax.tick_params(colors=INK2)
@@ -64,10 +72,15 @@ def grouped_bars(groups, series, values, colors, labels, ylabel, title, path, er
     n = len(series)
     width = 0.82 / n
     x = np.arange(len(groups))
+    # Hatching is a readability aid (redundant colour+pattern encoding) up to a handful of series; past that,
+    # on bars this narrow, it adds visual noise faster than it adds distinguishing power, so colour alone carries
+    # the encoding and only the black edge (still legible, still grayscale-safe as a boundary) remains.
+    use_hatch = n <= 4
     for i, s in enumerate(series):
         v = np.array([values[s].get(g, np.nan) for g in groups], dtype=float)
         pos = x - 0.41 + width * (i + 0.5)
-        ax.bar(pos, v, width * 0.9, color=colors[s], label=labels[s], linewidth=0)
+        ax.bar(pos, v, width * 0.9, color=colors[s], label=labels[s], edgecolor=INK, linewidth=0.7,
+               hatch=COLOR_HATCH.get(colors[s]) if use_hatch else None)
         if errors is not None:
             lo = np.array([errors[s].get(g, (np.nan, np.nan))[0] for g in groups], dtype=float)
             hi = np.array([errors[s].get(g, (np.nan, np.nan))[1] for g in groups], dtype=float)
@@ -120,8 +133,8 @@ def lines(xs, series, values, colors, labels, ylabel, xlabel, title, path, ref_l
     fig, ax = plt.subplots(figsize=(FIG_W, 2.9), constrained_layout=True)
     for s in series:
         v = [values[s].get(x, np.nan) for x in xs]
-        ax.plot(range(len(xs)), v, color=colors[s], linewidth=1.6, marker="o", markersize=4, label=labels[s],
-                markeredgecolor="white", markeredgewidth=0.6)
+        ax.plot(range(len(xs)), v, color=colors[s], linewidth=1.6, marker=COLOR_MARKER.get(colors[s], "o"),
+                markersize=4.5, label=labels[s], markeredgecolor="white", markeredgewidth=0.6)
     if ref_line is not None:
         ax.axhline(ref_line[0], color=INK2, linewidth=0.8, linestyle=(0, (4, 3)))
         ax.text(len(xs) - 0.6, ref_line[0], ref_line[1], color=INK2, fontsize=7.5, ha="right", va="bottom")

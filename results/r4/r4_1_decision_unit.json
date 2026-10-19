@@ -1,0 +1,27 @@
+{
+  "registration": "R4-1",
+  "pool": "ADVERSE_POOLED",
+  "n_boot": 10000,
+  "map_object": 0.7771164826244927,
+  "map_frame_pooled": 0.6879657067070983,
+  "primary_scene_cluster": {
+    "diff": 0.08915055237131608,
+    "ci95": [
+      0.06717357257645379,
+      0.11596805123173079
+    ],
+    "p_one_sided": 9.999000099990002e-05,
+    "n_scenes": 13,
+    "scenes_won": null
+  },
+  "secondary_frame_cluster": {
+    "diff": 0.0891507759173944,
+    "p_one_sided": 0.000999000999000999,
+    "n_boot": 1000
+  },
+  "refuted": false,
+  "params": {
+    "object": 18195,
+    "frame_pooled": 27539
+  }
+}

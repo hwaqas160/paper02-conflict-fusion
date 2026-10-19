@@ -1,0 +1,164 @@
+{
+  "dataset": "truckscenes",
+  "pool": "ADVERSE_POOLED, out-of-fold",
+  "n_boot": 1000,
+  "oof_map": {
+    "frame_cls": 0.7626433097653358,
+    "object": 0.8269471763628613,
+    "geom": 0.7762031768499582,
+    "geom_conf": 0.7794466162705822,
+    "geom_clocs": 0.7956368916390192
+  },
+  "vs_frame_cls": {
+    "geom": {
+      "diff": 0.013559867084622423,
+      "ci95": [
+        0.008494512217033174,
+        0.018714312639860682
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 177,
+      "scenes_behind": 45,
+      "sign_test_p_two_sided": 1.0587163357105223e-19
+    },
+    "geom_conf": {
+      "diff": 0.016803306505246418,
+      "ci95": [
+        0.012402161635232311,
+        0.021620037948648033
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 173,
+      "scenes_behind": 51,
+      "sign_test_p_two_sided": 1.0211913324231582e-16
+    },
+    "geom_clocs": {
+      "diff": 0.0329935818736834,
+      "ci95": [
+        0.025804008107625672,
+        0.04081362388934046
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 195,
+      "scenes_behind": 30,
+      "sign_test_p_two_sided": 8.01250676061875e-31
+    }
+  },
+  "object_vs_frame_cls": {
+    "diff": 0.06430386659752552,
+    "ci95": [
+      0.05594753388893181,
+      0.07369694914737351
+    ],
+    "p_one_sided": 0.000999000999000999,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 201,
+    "scenes_behind": 23,
+    "sign_test_p_two_sided": 1.1425035596096833e-36
+  },
+  "object_vs_minimal": {
+    "geom": {
+      "diff": 0.05074399951290309,
+      "ci95": [
+        0.04337777822658461,
+        0.05903895854551864
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 197,
+      "scenes_behind": 25,
+      "sign_test_p_two_sided": 2.4491695641374234e-34
+    },
+    "geom_conf": {
+      "diff": 0.0475005600922791,
+      "ci95": [
+        0.04062351694253658,
+        0.054603429440888133
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 198,
+      "scenes_behind": 25,
+      "sign_test_p_two_sided": 1.378218328320286e-34
+    },
+    "geom_clocs": {
+      "diff": 0.03131028472384212,
+      "ci95": [
+        0.026338712200244047,
+        0.036504172493523245
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 186,
+      "scenes_behind": 39,
+      "sign_test_p_two_sided": 3.765677582732302e-24
+    }
+  },
+  "folds_ahead_of_frame_cls": {
+    "geom": 5,
+    "geom_conf": 5,
+    "geom_clocs": 5
+  },
+  "per_fold": [
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "frame_cls": 0.7812661143421903,
+        "object": 0.8300127138205081,
+        "geom": 0.7908854304196318,
+        "geom_conf": 0.798898855666993,
+        "geom_clocs": 0.8149457584332298
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "frame_cls": 0.7487382518650664,
+        "object": 0.8281448531289077,
+        "geom": 0.7660731306312292,
+        "geom_conf": 0.7630147761624632,
+        "geom_clocs": 0.7896581440628712
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "frame_cls": 0.7294478843517288,
+        "object": 0.802902055853038,
+        "geom": 0.7408345724789225,
+        "geom_conf": 0.7447527520586773,
+        "geom_clocs": 0.7569626441465178
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "frame_cls": 0.7756342132087283,
+        "object": 0.8345070956140492,
+        "geom": 0.7866598522952051,
+        "geom_conf": 0.7901967584297593,
+        "geom_clocs": 0.7985843032372452
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "frame_cls": 0.7755014181506451,
+        "object": 0.8401131613198689,
+        "geom": 0.7944738910383657,
+        "geom_conf": 0.7988486055702482,
+        "geom_clocs": 0.8164052790470756
+      }
+    }
+  ]
+}

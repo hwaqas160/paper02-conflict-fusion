@@ -1,0 +1,27 @@
+{
+  "clear0": {
+    "n_frames": 14708,
+    "n_camera_boxes": 235654,
+    "n_lidar_overridden": 163756
+  },
+  "fog1": {
+    "n_frames": 475,
+    "n_camera_boxes": 4451,
+    "n_lidar_overridden": 4386
+  },
+  "night1": {
+    "n_frames": 3040,
+    "n_camera_boxes": 61916,
+    "n_lidar_overridden": 49936
+  },
+  "rain1": {
+    "n_frames": 4759,
+    "n_camera_boxes": 91516,
+    "n_lidar_overridden": 75874
+  },
+  "snow1": {
+    "n_frames": 920,
+    "n_camera_boxes": 9127,
+    "n_lidar_overridden": 8767
+  }
+}

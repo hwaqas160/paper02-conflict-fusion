@@ -1,0 +1,132 @@
+{
+  "candidates": "cross-fitted in-domain LiDAR Car detector",
+  "n_boot_primary": 10000,
+  "n_boot_secondary": 1000,
+  "oof_map": {
+    "fixed_clear": 0.8788606142147378,
+    "frame_cls": 0.8783372625311456,
+    "object": 0.8782969023977034,
+    "frame_pooled": 0.8789103839542803,
+    "geom_clocs": 0.8763373563816367
+  },
+  "per_fold": [
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.891982201451379,
+        "frame_cls": 0.8943001425466772,
+        "object": 0.8919707183497446,
+        "frame_pooled": 0.8943400861423461,
+        "geom_clocs": 0.8888283452711194
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.8935128802508333,
+        "frame_cls": 0.8928419559141596,
+        "object": 0.8918083278793365,
+        "frame_pooled": 0.8942623961347101,
+        "geom_clocs": 0.8932388572121844
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.8571985497963786,
+        "frame_cls": 0.8547119283730176,
+        "object": 0.8543291125089131,
+        "frame_pooled": 0.8546586980734743,
+        "geom_clocs": 0.8512888479147183
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "fixed_clear": 0.853223570040524,
+        "frame_cls": 0.8542294896770564,
+        "object": 0.855724865862045,
+        "frame_pooled": 0.8548729146495809,
+        "geom_clocs": 0.8519836391506
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "fixed_clear": 0.9008595192614035,
+        "frame_cls": 0.9011716784643022,
+        "object": 0.9051143130608746,
+        "frame_pooled": 0.9024624880563533,
+        "geom_clocs": 0.8984648547851977
+      }
+    }
+  ],
+  "folds_object_ahead_of_frame_cls": 2,
+  "folds_object_ahead_of_frame_pooled": 2,
+  "primary_object_vs_frame_cls": {
+    "diff": -4.036013344221878e-05,
+    "ci95": [
+      -0.0031027129793301965,
+      0.003164297413890634
+    ],
+    "p_one_sided": 0.49025097490250974,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 120,
+    "scenes_behind": 104,
+    "sign_test_p_two_sided": 0.3162329297034795
+  },
+  "primary_refuted": true,
+  "object_vs_frame_pooled": {
+    "diff": -0.0006134815565769225,
+    "ci95": [
+      -0.0029708375924970888,
+      0.0019367647963612203
+    ],
+    "p_one_sided": 0.6603396603396603,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 127,
+    "scenes_behind": 97,
+    "sign_test_p_two_sided": 0.0524236446424336
+  },
+  "object_vs_fixed_clear": {
+    "diff": -0.0005637118170344069,
+    "ci95": [
+      -0.003508733897526492,
+      0.0026314639792677508
+    ],
+    "p_one_sided": 0.5974025974025974,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 118,
+    "scenes_behind": 106,
+    "sign_test_p_two_sided": 0.4624363817310327
+  },
+  "geom_clocs_vs_frame_cls": {
+    "diff": -0.0019999061495089565,
+    "ci95": [
+      -0.0046705559654734025,
+      -0.00015000948708943657
+    ],
+    "p_one_sided": 0.987012987012987,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 100,
+    "scenes_behind": 119,
+    "sign_test_p_two_sided": 0.22377658364650563
+  },
+  "object_vs_geom_clocs": {
+    "diff": 0.0019595460160667377,
+    "ci95": [
+      0.00018421614695524337,
+      0.004720500752771167
+    ],
+    "p_one_sided": 0.016983016983016984,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 135,
+    "scenes_behind": 90,
+    "sign_test_p_two_sided": 0.0032640693151527876
+  }
+}

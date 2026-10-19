@@ -1,0 +1,81 @@
+{
+  "dataset": "truckscenes",
+  "n_boot": 1000,
+  "conditions": {
+    "clear0": {
+      "diff": 0.06567367587117845,
+      "ci95": [
+        0.05820090685120484,
+        0.07415919547657562
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 368,
+      "scenes_won": null,
+      "scenes_ahead": 303,
+      "scenes_behind": 25,
+      "sign_test_p_two_sided": 7.925282974343327e-62,
+      "map_object": 0.8322478005278657,
+      "map_frame_cls": 0.7665741246566873
+    },
+    "fog1": {
+      "diff": 0.074616453002467,
+      "ci95": [
+        0.05745685490819415,
+        0.09202515769375692
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 12,
+      "scenes_won": null,
+      "scenes_ahead": 12,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 0.00048828125,
+      "map_object": 0.8781528297154624,
+      "map_frame_cls": 0.8035363767129954
+    },
+    "rain1": {
+      "diff": 0.07186595982967658,
+      "ci95": [
+        0.05900919771987509,
+        0.08520602489814995
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 119,
+      "scenes_won": null,
+      "scenes_ahead": 98,
+      "scenes_behind": 17,
+      "sign_test_p_two_sided": 5.0568270983240306e-15,
+      "map_object": 0.8248746734845409,
+      "map_frame_cls": 0.7530087136548643
+    },
+    "snow1": {
+      "diff": 0.05268068597046205,
+      "ci95": [
+        0.03156188727628942,
+        0.07554051807094986
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 23,
+      "scenes_won": null,
+      "scenes_ahead": 23,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 2.384185791015625e-07,
+      "map_object": 0.6901137450165411,
+      "map_frame_cls": 0.637433059046079
+    },
+    "night1": {
+      "diff": 0.05163420729948354,
+      "ci95": [
+        0.04267005210886528,
+        0.06097170413978314
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 76,
+      "scenes_won": null,
+      "scenes_ahead": 68,
+      "scenes_behind": 6,
+      "sign_test_p_two_sided": 2.1448756331687684e-14,
+      "map_object": 0.861656449246103,
+      "map_frame_cls": 0.8100222419466194
+    }
+  }
+}

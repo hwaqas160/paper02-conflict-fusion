@@ -1,0 +1,14 @@
+{
+  "registration": "R4-3",
+  "n_cal": 4700,
+  "n_pos": 4836,
+  "n_neg": 1612,
+  "aurocs": {
+    "support_check": 0.9966056632739976,
+    "mahalanobis": 0.6344682509384743,
+    "knn10": 0.7664198361338761,
+    "logistic_density_ratio": 0.7732649514497348
+  },
+  "best_baseline": 0.7732649514497348,
+  "refuted": false
+}

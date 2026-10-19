@@ -1,0 +1,114 @@
+{
+  "dataset": "boreas",
+  "pool": "ADVERSE_POOLED",
+  "n_boot": 10000,
+  "map": {
+    "frame_cls": 0.700153866969827,
+    "object": 0.7771162975050154,
+    "geom": 0.732595407893591,
+    "geom_conf": 0.7457391959104754,
+    "geom_clocs": 0.7694479583562763
+  },
+  "params": {
+    "frame_cls": 10195,
+    "object": 18195,
+    "geom": 10003,
+    "geom_conf": 10707,
+    "geom_clocs": 11923
+  },
+  "vs_frame_cls": {
+    "geom": {
+      "diff": 0.032441540923764056,
+      "ci95": [
+        0.017427184420017814,
+        0.04861969876169763
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 12,
+      "scenes_behind": 1,
+      "sign_test_p_two_sided": 0.00341796875
+    },
+    "geom_conf": {
+      "diff": 0.045585328940648484,
+      "ci95": [
+        0.02905735009414948,
+        0.06561011610503126
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 13,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 0.000244140625
+    },
+    "geom_clocs": {
+      "diff": 0.06929409138644937,
+      "ci95": [
+        0.04812020317234234,
+        0.09507263035253857
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 13,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 0.000244140625
+    }
+  },
+  "object_vs_frame_cls": {
+    "diff": 0.07696243053518848,
+    "ci95": [
+      0.05485582924888236,
+      0.10289941552093977
+    ],
+    "p_one_sided": 9.999000099990002e-05,
+    "n_scenes": 13,
+    "scenes_won": null,
+    "scenes_ahead": 13,
+    "scenes_behind": 0,
+    "sign_test_p_two_sided": 0.000244140625
+  },
+  "object_vs_minimal": {
+    "geom": {
+      "diff": 0.04452088961142442,
+      "ci95": [
+        0.03051378766359514,
+        0.06031436529520252
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 13,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 0.000244140625
+    },
+    "geom_conf": {
+      "diff": 0.03137710159453999,
+      "ci95": [
+        0.019794354023538525,
+        0.04655468048786205
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 13,
+      "scenes_behind": 0,
+      "sign_test_p_two_sided": 0.000244140625
+    },
+    "geom_clocs": {
+      "diff": 0.007668339148739101,
+      "ci95": [
+        0.001060887307429487,
+        0.014815420528359708
+      ],
+      "p_one_sided": 0.013298670132986702,
+      "n_scenes": 13,
+      "scenes_won": null,
+      "scenes_ahead": 10,
+      "scenes_behind": 3,
+      "sign_test_p_two_sided": 0.09228515625
+    }
+  }
+}

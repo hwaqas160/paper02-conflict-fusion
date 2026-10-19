@@ -1,0 +1,61 @@
+{
+  "registration": "R4-2",
+  "pool": "ADVERSE_POOLED, out-of-fold",
+  "n_boot": 10000,
+  "oof_map_object": 0.8218657418892703,
+  "oof_map_frame_pooled": 0.7722684149886004,
+  "primary_scene_cluster": {
+    "diff": 0.04959732690066987,
+    "ci95": [
+      0.0418097253084081,
+      0.05817129506740834
+    ],
+    "p_one_sided": 9.999000099990002e-05,
+    "n_scenes": 230,
+    "scenes_won": null
+  },
+  "folds_object_ahead": 5,
+  "per_fold": [
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.827972775872471,
+        "frame_pooled": 0.7889378328096754
+      },
+      "object_minus_pooled": 0.039034943062795535
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.8149096777430992,
+        "frame_pooled": 0.7567678988198876
+      },
+      "object_minus_pooled": 0.058141778923211596
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "object": 0.7895044283085689,
+        "frame_pooled": 0.7346307301454503
+      },
+      "object_minus_pooled": 0.0548736981631186
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "object": 0.8331849795300599,
+        "frame_pooled": 0.7879363938258679
+      },
+      "object_minus_pooled": 0.04524858570419199
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "object": 0.8433141213617287,
+        "frame_pooled": 0.7875902022820459
+      },
+      "object_minus_pooled": 0.05572391907968277
+    }
+  ],
+  "refuted": false
+}
