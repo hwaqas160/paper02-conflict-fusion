@@ -62,6 +62,14 @@ def load(*parts):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
+def thou(x):
+    """Integer with the IEEE thousands separator for LaTeX (a thin {,})."""
+    try:
+        return f"{int(x):,}".replace(",", "{,}")
+    except (TypeError, ValueError):
+        return str(x)
+
+
 def pct(x, d=2):
     return "?" if x is None else f"{100 * x:.{d}f}"
 
@@ -77,11 +85,11 @@ def esc(s):
 TEX_LABEL = {"object": "Per-object router (ours)", "fixed_clear": "Fixed weights (status quo)",
              "frame_cls": "Per-frame weather classifier", "proben": "ProbEn \\citep{chen2022proben}",
              "dempster_shafer": "Dempster--Shafer evidential \\citep{shafer1976}",
-             "clocs": "CLOCs \\citep{pang2020clocs}", "set_transformer": "Set-transformer fusion \\citep{lee2019settransformer}",
+             "clocs": "CLOCs \\citep{pang2020clocs}", "set_transformer": "Set transformer fusion \\citep{lee2019settransformer}",
              "moe_frame": "Per-frame mixture of experts \\citep{mees2016moe}", "oracle": "Oracle selector (upper bound)",
              "object_noradar": "Per-object router, radar removed"}
 ABL_LABEL = {"no_absence_term": "negative-evidence (absence) term", "no_learned_precision": "learned position precisions",
-             "no_harm_aux_loss": "harm auxiliary loss", "no_localisation_loss": "localisation loss",
+             "no_harm_aux_loss": "harm auxiliary loss", "no_localisation_loss": "localization loss",
              "no_sensor_dropout": "sensor-dropout training", "no_frame_context": "frame context (DeepSets)"}
 
 
@@ -118,7 +126,7 @@ def r2_macros(macros):
         out = []
         for a in order:
             m, v = b["map"][a], b["vs_ours"].get(a)
-            out.append([TEX_LABEL[a], str(b["params"][a]), num(m.get("clear0")), num(m.get("ADVERSE_POOLED")),
+            out.append([TEX_LABEL[a], thou(b["params"][a]), num(m.get("clear0")), num(m.get("ADVERSE_POOLED")),
                         num(m.get("HELDOUT")), num(m.get("fog3")), num(b.get("cadc", {}).get(a)),
                         cmp_cell(v) if v else "--"])
         macros["RtwoBRows"] = rows(out)
@@ -140,7 +148,7 @@ def r2_macros(macros):
         macros["RtwoBOracleAdverse"] = num(b["map"]["oracle"]["ADVERSE_POOLED"])
     c = load(*r2, "r2c_ablation.json")
     if c:
-        out = [["full router (ours)", num(c["map"]["full"]["clear0"]), num(c["map"]["full"]["ADVERSE_POOLED"]), "--", "--"]]
+        out = [["Full router (ours)", num(c["map"]["full"]["clear0"]), num(c["map"]["full"]["ADVERSE_POOLED"]), "--", "--"]]
         for a, v in c["vs_full"].items():
             out.append([f"w/o {ABL_LABEL.get(a, a)}", num(c["map"][a]["clear0"]), num(c["map"][a]["ADVERSE_POOLED"]),
                         f"{v['diff']:+.4f} ({pv(v['p_holm'])})", "yes" if v["contributes"] else "no"])
@@ -260,7 +268,7 @@ def r2_macros(macros):
                                            for n, v in a["C_vs_full"].items()])
             macros["RtwoATsCNContrib"] = str(sum(v["contributes"] for v in a["C_vs_full"].values()))
             if c:  # one table, both datasets: Boreas (clear, adverse, diff, contributes) then TruckScenes (adverse, diff, contributes)
-                both = [["full router (ours)", num(c["map"]["full"]["clear0"]), num(c["map"]["full"]["ADVERSE_POOLED"]), "--", "--",
+                both = [["Full router (ours)", num(c["map"]["full"]["clear0"]), num(c["map"]["full"]["ADVERSE_POOLED"]), "--", "--",
                          num(a["oof_map"]["ADVERSE_POOLED"]["object"]), "--", "--"]]
                 for n, v in c["vs_full"].items():
                     t = a["C_vs_full"][n]
@@ -291,7 +299,7 @@ def r2_macros(macros):
         arms = ("fixed_clear", "frame_cls", "object")
         out = [["zero-shot, raw probes"] + [num(d["D1_raw"]["map"][x]) for x in arms] +
                [f"{d['D1_raw']['object_vs_frame_cls']['diff']:+.4f} ({pv(d['D1_raw']['object_vs_frame_cls']['p_one_sided'])})"],
-               ["zero-shot, resolution-normalised"] + [num(d["D1_normalised"]["map"][x]) for x in arms] +
+               ["zero-shot, resolution-normalized"] + [num(d["D1_normalised"]["map"][x]) for x in arms] +
                [f"{d['D1_normalised']['object_vs_frame_cls']['diff']:+.4f} ({pv(d['D1_normalised']['object_vs_frame_cls']['p_one_sided'])})"]]
         for k, v in d["D2"].items():
             o = v["object_vs_frame_cls"]
@@ -310,8 +318,8 @@ def r2_macros(macros):
 
 
 R3_LABEL = {"original": "Original router", "V0": "Original router, re-fit", "V1": "V1: attention context",
-            "V2": "V2: bounded correction (final)", "V3": "V3: V1 + V2", "set_transformer": "Set-transformer (black box)",
-            "set_noattn": "Set-transformer, attention removed", "variant_rule_only": "V2, correction switched off"}
+            "V2": "V2: bounded correction (final)", "V3": "V3: V1 + V2", "set_transformer": "Set transformer (black box)",
+            "set_noattn": "Set transformer, attention removed", "variant_rule_only": "V2, correction switched off"}
 
 
 def r3_macros(macros):
@@ -549,6 +557,98 @@ def e12_macros(macros):
         macros[f"Etwelve{tag}ConfMatched"] = num(c["coverage_conflict_at_matched_radius"])
 
 
+def e17_macros(macros):
+    """E17 lean router and E18 CADC-native router."""
+    r = load("r4", "e17_lean_both.json")
+    if r:
+        b, s = r["boreas"], r["truckscenes"]
+        macros["SeventeenParams"] = thou(b["params"]["lean"])
+        macros["SeventeenBoreasMap"] = num(b["map"]["lean"])
+        macros["SeventeenBoreasVsFull"] = f"{b['lean_vs_full']['diff']:+.4f}"
+        macros["SeventeenTsMap"] = num(s["oof_map"]["lean"])
+        macros["SeventeenTsFullMap"] = num(s["oof_map"]["full"])
+        macros["SeventeenTsVsFull"] = f"{s['lean_vs_full']['diff']:+.4f}"
+        macros["SeventeenTsVsFrame"] = f"{s['lean_vs_frame_cls']['diff']:+.4f}"
+    c = load("r4", "e18_cadc_native.json")
+    if c:
+        o = c["object_vs_fixed"]
+        macros["EighteenDiff"] = f"{o['diff']:+.4f}"
+        macros["EighteenLo"] = f"{o['ci95'][0]:+.4f}"
+        macros["EighteenHi"] = f"{o['ci95'][1]:+.4f}"
+        macros["EighteenFolds"] = str(c["folds_object_ahead"])
+
+
+def e16_macros(macros):
+    """E16: fully in-domain suite (cross-fitted LiDAR plus learned camera and radar heads)."""
+    r = load("ts_detector", "r4", "e16_fully_indomain_router.json")
+    if r:
+        c = r["primary_object_vs_frame_cls"]
+        macros["SixteenObj"] = num(r["oof_map"]["object"])
+        macros["SixteenFrame"] = num(r["oof_map"]["frame_cls"])
+        macros["SixteenDiff"] = f"{c['diff']:+.4f}"
+        macros["SixteenLo"] = f"{c['ci95'][0]:+.4f}"
+        macros["SixteenHi"] = f"{c['ci95'][1]:+.4f}"
+        macros["SixteenP"] = pc(c["p_one_sided"])
+        macros["SixteenFolds"] = str(r["folds_object_ahead_of_frame_cls"])
+        macros["SixteenPooledDiff"] = f"{r['object_vs_frame_pooled']['diff']:+.4f}"
+    r9 = load("ts_detector", "r4", "e19_reprobe_router.json")
+    if r9:
+        c = r9["primary_object_vs_frame_cls"]
+        macros["SixteenObj"] = num(r9["oof_map"]["object"])
+        macros["SixteenFrame"] = num(r9["oof_map"]["frame_cls"])
+        macros["SixteenDiff"] = f"{c['diff']:+.4f}"
+        macros["SixteenLo"] = f"{c['ci95'][0]:+.4f}"
+        macros["SixteenHi"] = f"{c['ci95'][1]:+.4f}"
+        macros["SixteenP"] = pc(c["p_one_sided"])
+        macros["SixteenFolds"] = str(r9["folds_object_ahead_of_frame_cls"])
+    q20 = load("truckscenes", "r4", "e20_quantile.json")
+    if q20:
+        macros["TwentyObj"] = num(q20["map"]["object"])
+        macros["TwentyFrame"] = num(q20["map"]["frame_cls"])
+    own = load("truckscenes", "r4", "e15b_selective_ts_degradation-own.json")
+    if own:
+        macros["EfifteenOwnSnowFnr"] = num(own["conditions"]["snow1"]["fnr_accepted"])
+    r22 = load("ts_detector", "r4", "e22_combined_router.json")
+    if r22:
+        c = r22["primary_object_vs_frame_cls"]
+        macros["TwentytwoDiff"] = f"{c['diff']:+.4f}"
+        macros["TwentytwoLo"] = f"{c['ci95'][0]:+.4f}"
+        macros["TwentytwoHi"] = f"{c['ci95'][1]:+.4f}"
+        macros["TwentytwoFolds"] = str(r22["folds_object_ahead_of_frame_cls"])
+    ap = load("r4", "e21_camera_ap.json")
+    if ap:
+        macros["CamApRaw"] = num(ap["coco_raw"]["adverse_2m"], 2)
+        macros["CamApComb"] = num(ap["combined_E22"]["adverse_2m"], 2)
+    q = load("r4", "e16_head_quality.json")
+    if q:
+        macros["SixteenCamAurocOld"] = num(q["camera_matched_auroc"]["original"], 2)
+        macros["SixteenCamAurocNew"] = num(q["camera_matched_auroc"]["learned"], 2)
+        macros["SixteenRadAurocOld"] = num(q["radar_auroc"]["original"], 2)
+        macros["SixteenRadAurocNew"] = num(q["radar_auroc"]["learned"], 2)
+
+
+def e15_macros(macros):
+    """E15 / E15b: selective conformal risk control (abstain on a label-free score)."""
+    z = load("r4", "e15_selective.json")
+    if z:
+        c = z["conditions"]
+        macros["EfifteenAlpha"] = f"{z['alpha']:.2f}"
+        for key, tag in (("Clear", "clear0"), ("FogTwo", "fog2"), ("RainThree", "rain3"), ("SnowThree", "snow3")):
+            macros[f"Efifteen{key}Fnr"] = num(c[tag]["fnr_accepted"])
+        macros["EfifteenFogThreeAccepted"] = pct(c["fog3"]["accepted"], 0)
+        macros["EfifteenFogThreeFnrAll"] = num(c["fog3"]["fnr_all_frames"])
+    b = load("r2", "r2b_baselines.json")
+    if b and "cadc" in b:
+        macros["CadcOracleMap"] = num(b["cadc"]["oracle"])
+        macros["CadcOracleHeadroom"] = num(b["cadc"]["oracle"] - b["cadc"]["fixed_clear"])
+    r = load("truckscenes", "r4", "e15b_selective_ts.json")
+    if r:
+        c = r["conditions"]
+        for key, tag in (("Fog", "fog1"), ("Night", "night1"), ("Rain", "rain1"), ("Snow", "snow1")):
+            macros[f"EfifteenB{key}Fnr"] = num(c[tag]["fnr_accepted"])
+        macros["EfifteenBSnowAccepted"] = pct(c["snow1"]["accepted"], 0)
+
+
 def e13_macros(macros):
     z = load("truckscenes", "r4", "e13_sim2real.json")
     if z:
@@ -662,7 +762,7 @@ def main():
             macros[f"Map{label}Clear"] = num(m.get("clear0"))
             macros[f"Map{label}Adverse"] = num(m.get("ADVERSE_POOLED"))
             macros[f"Map{label}Heldout"] = num(m.get("HELDOUT"))
-            macros[f"NParams{label}"] = str(e2["n_params"].get(arm, "?"))
+            macros[f"NParams{label}"] = thou(e2["n_params"].get(arm, "?"))
         if e2.get("weather_classifier"):
             macros["WeatherClfAcc"] = num(e2["weather_classifier"]["train_conditions_test_acc"])
 
@@ -765,7 +865,7 @@ def main():
     if s3:
         clocs = s3.get("CLOCs-style (conf + conflict + det feats, no probes)", {})
         macros["ClocsAdverse"] = num(clocs.get("ADVERSE_POOLED"))
-        macros["ClocsParams"] = str(clocs.get("params", "?"))
+        macros["ClocsParams"] = thou(clocs.get("params", "?"))
         obj = s3.get("per-object (ours)", {})
         macros["SThreeObjAdverse"] = num(obj.get("ADVERSE_POOLED"))
         noabs = s3.get("per-object, negative-evidence term removed (test time)", {})
@@ -813,7 +913,7 @@ def main():
 
     manifest = load("cache", "boreas", "manifest.json")
     if manifest:
-        macros["NFramesFull"] = str(manifest.get("n_frames"))
+        macros["NFramesFull"] = thou(manifest.get("n_frames"))
         sp = manifest.get("splits", {})
         macros["NTrainFrames"] = str(sp.get("train", "?"))
         macros["NCalFrames"] = str(sp.get("cal", "?"))
@@ -830,6 +930,9 @@ def main():
     e11_macros(macros)
     e12_macros(macros)
     e13_macros(macros)
+    e15_macros(macros)
+    e16_macros(macros)
+    e17_macros(macros)
     e8c_macros(macros)
 
     lines = ["% AUTO-GENERATED by paper/latex/make_paper_data.py — do not edit by hand.",

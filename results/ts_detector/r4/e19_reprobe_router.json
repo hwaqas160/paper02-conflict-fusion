@@ -1,0 +1,132 @@
+{
+  "candidates": "candidates_full2",
+  "n_boot_primary": 10000,
+  "n_boot_secondary": 1000,
+  "oof_map": {
+    "fixed_clear": 0.8828459659470516,
+    "frame_cls": 0.8829163750149632,
+    "object": 0.8838712338541517,
+    "frame_pooled": 0.8826594375657528,
+    "geom_clocs": 0.8800653793336217
+  },
+  "per_fold": [
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.8948871651395525,
+        "frame_cls": 0.8980070279857347,
+        "object": 0.8948519144472844,
+        "frame_pooled": 0.8969648369040152,
+        "geom_clocs": 0.8922104158976252
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.8995175481611865,
+        "frame_cls": 0.8983978731681915,
+        "object": 0.90107147056191,
+        "frame_pooled": 0.8962824252444844,
+        "geom_clocs": 0.894260314670521
+      }
+    },
+    {
+      "n_test_scenes": 120,
+      "map": {
+        "fixed_clear": 0.8617528496943582,
+        "frame_cls": 0.8591207077952618,
+        "object": 0.8621021430513907,
+        "frame_pooled": 0.8622292779129004,
+        "geom_clocs": 0.859660859152983
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "fixed_clear": 0.8570910804141337,
+        "frame_cls": 0.8581514400236692,
+        "object": 0.8650802071044055,
+        "frame_pooled": 0.8574658711415021,
+        "geom_clocs": 0.8527296267946549
+      }
+    },
+    {
+      "n_test_scenes": 119,
+      "map": {
+        "fixed_clear": 0.9046797246077386,
+        "frame_cls": 0.9060021638773424,
+        "object": 0.9064501568332606,
+        "frame_pooled": 0.9053477738988076,
+        "geom_clocs": 0.905544069814175
+      }
+    }
+  ],
+  "folds_object_ahead_of_frame_cls": 4,
+  "folds_object_ahead_of_frame_pooled": 3,
+  "primary_object_vs_frame_cls": {
+    "diff": 0.0009548588391884438,
+    "ci95": [
+      -0.0013485599557907873,
+      0.0037575375852029465
+    ],
+    "p_one_sided": 0.1618838116188381,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 134,
+    "scenes_behind": 87,
+    "sign_test_p_two_sided": 0.001906286015530941
+  },
+  "primary_refuted": true,
+  "object_vs_frame_pooled": {
+    "diff": 0.0012117962883988476,
+    "ci95": [
+      -0.0006895812641488003,
+      0.004042817525665904
+    ],
+    "p_one_sided": 0.056943056943056944,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 135,
+    "scenes_behind": 89,
+    "sign_test_p_two_sided": 0.002562907865011273
+  },
+  "object_vs_fixed_clear": {
+    "diff": 0.0010252679071001136,
+    "ci95": [
+      -0.0012473867324592435,
+      0.0041406362329337865
+    ],
+    "p_one_sided": 0.13686313686313686,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 137,
+    "scenes_behind": 85,
+    "sign_test_p_two_sided": 0.0005883421109066804
+  },
+  "geom_clocs_vs_frame_cls": {
+    "diff": -0.002850995681341506,
+    "ci95": [
+      -0.005410475471255683,
+      -0.0008224087200063152
+    ],
+    "p_one_sided": 0.997002997002997,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 100,
+    "scenes_behind": 121,
+    "sign_test_p_two_sided": 0.1783815706282226
+  },
+  "object_vs_geom_clocs": {
+    "diff": 0.00380585452052995,
+    "ci95": [
+      0.002133872448582011,
+      0.006375536118448608
+    ],
+    "p_one_sided": 0.000999000999000999,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 149,
+    "scenes_behind": 74,
+    "sign_test_p_two_sided": 5.707299574347706e-07
+  }
+}

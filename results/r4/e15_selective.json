@@ -1,0 +1,99 @@
+{
+  "alpha": 0.1,
+  "calibration_conditions": [
+    "clear0",
+    "fog1",
+    "fog2",
+    "rain1",
+    "rain2",
+    "snow1",
+    "snow2",
+    "night2"
+  ],
+  "chosen": {
+    "tau": -8.961124420166016,
+    "lambda": 0.018990847681249902,
+    "cal_accept": 1.0,
+    "cal_risk": 0.09812779588265025,
+    "n_cal": 7416
+  },
+  "conditions": {
+    "clear0": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.049715844837796064,
+      "fnr_accepted": 0.049715844837796064,
+      "held_out_condition": false
+    },
+    "fog1": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.06082951509780779,
+      "fnr_accepted": 0.06082951509780779,
+      "held_out_condition": false
+    },
+    "fog2": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.10483471520056885,
+      "fnr_accepted": 0.10483471520056885,
+      "held_out_condition": false
+    },
+    "fog3": {
+      "n_frames": 1517,
+      "accepted": 0.0,
+      "fnr_all_frames": 0.337645032766984,
+      "fnr_accepted": null,
+      "held_out_condition": true
+    },
+    "rain1": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.05882024479585456,
+      "fnr_accepted": 0.05882024479585456,
+      "held_out_condition": false
+    },
+    "rain2": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.06011013998818876,
+      "fnr_accepted": 0.06011013998818876,
+      "held_out_condition": false
+    },
+    "rain3": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.05959894679406875,
+      "fnr_accepted": 0.05959894679406875,
+      "held_out_condition": true
+    },
+    "snow1": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.06179624045477704,
+      "fnr_accepted": 0.06179624045477704,
+      "held_out_condition": false
+    },
+    "snow2": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.07096514596514596,
+      "fnr_accepted": 0.07096514596514596,
+      "held_out_condition": false
+    },
+    "snow3": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.08900181705059754,
+      "fnr_accepted": 0.08900181705059754,
+      "held_out_condition": true
+    },
+    "night2": {
+      "n_frames": 1517,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.053764358032650714,
+      "fnr_accepted": 0.053764358032650714,
+      "held_out_condition": false
+    }
+  }
+}

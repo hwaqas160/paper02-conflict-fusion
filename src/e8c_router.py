@@ -12,7 +12,7 @@ import numpy as np
 from .e10_minimal import ARMS, compare
 
 
-def run(k=5, n_boot=10000, n_boot2=1000):
+def run(k=5, n_boot=10000, n_boot2=1000, cand_name="candidates", out_name="e8c_indomain_router.json", router_dir="router"):
     from .common import load_config, resolve, seed_everything
     from .evaluate import eval_map, map_of_units, per_frame_units
     from .r2_experiments import fold_ctx, scene_folds
@@ -23,10 +23,10 @@ def run(k=5, n_boot=10000, n_boot2=1000):
 
     register()
     base = load_config(None, TS_OVERRIDES)
-    cand_root = resolve(base, "results_root").parent / "ts_detector" / "candidates"
+    cand_root = resolve(base, "results_root").parent / "ts_detector" / cand_name
     assert (cand_root / "truckscenes" / "clear0.npz").exists(), "run e8c_rebuild candidates first"
     cfg = load_config(None, {**TS_OVERRIDES, "paths.candidates_root": str(cand_root),
-                             "paths.results_root": "results/ts_detector/router"})
+                             "paths.results_root": f"results/ts_detector/{router_dir}"})
     seed_everything(cfg["seed"])
     ctx = Ctx(cfg, dataset="truckscenes")
     names = ["fixed_clear", "frame_cls", "object", "frame_pooled", "geom_clocs"]
@@ -34,19 +34,20 @@ def run(k=5, n_boot=10000, n_boot2=1000):
     per_fold = []
     for i, fs in enumerate(scene_folds(ctx, k, seed=0, stratify=True)):
         d = fold_ctx(ctx, fs, f"e8c_fold{i}")
+        tt = d.test_table(tags=ctx.adverse_tags)
         models = {"fixed_clear": d.status_quo(), "frame_cls": d.arm("frame_cls"), "object": d.arm("object"),
                   "frame_pooled": d.arm("frame_pooled"),
                   "geom_clocs": d.arm("object", blocks=ARMS["geom_clocs"], context=False, tag="e8c_geom_clocs")}
-        tt = d.test_table(tags=ctx.adverse_tags)
         maps = {}
         for n, m in models.items():
+            ctx.log.info(f"[e8c] predict {n}: {len(tt['frames'])} test frames")
             pr = m.predict(tt)
             maps[n] = eval_map(tt, pr, cfg)[0]
             oof[n].extend(scene_units(tt, per_frame_units(tt, pr, cfg)))
         per_fold.append({"n_test_scenes": len(fs), "map": maps})
         ctx.log.info(f"[e8c] fold {i}: {maps}")
     ctx.log.info("[e8c] folds done; bootstraps")
-    res = {"candidates": "cross-fitted in-domain LiDAR Car detector", "n_boot_primary": n_boot, "n_boot_secondary": n_boot2,
+    res = {"candidates": cand_name, "n_boot_primary": n_boot, "n_boot_secondary": n_boot2,
            "oof_map": {n: map_of_units(u, cfg) for n, u in oof.items()}, "per_fold": per_fold}
     res["folds_object_ahead_of_frame_cls"] = int(sum(f["map"]["object"] > f["map"]["frame_cls"] for f in per_fold))
     res["folds_object_ahead_of_frame_pooled"] = int(sum(f["map"]["object"] > f["map"]["frame_pooled"] for f in per_fold))
@@ -60,7 +61,7 @@ def run(k=5, n_boot=10000, n_boot2=1000):
     res["object_vs_geom_clocs"] = compare(oof["object"], oof["geom_clocs"], cfg, n_boot2)
     out = resolve(cfg, "results_root").parent / "r4"
     out.mkdir(parents=True, exist_ok=True)
-    (out / "e8c_indomain_router.json").write_text(json.dumps(res, indent=2), encoding="utf-8")
+    (out / out_name).write_text(json.dumps(res, indent=2), encoding="utf-8")
     return res
 
 

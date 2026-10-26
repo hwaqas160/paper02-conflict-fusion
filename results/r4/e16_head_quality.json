@@ -1,0 +1,14 @@
+{
+  "camera_median_abs_range_error_m": {
+    "original": 1.5305612310019612,
+    "learned": 1.2847630223201274
+  },
+  "camera_matched_auroc": {
+    "original": 0.6943454097280469,
+    "learned": 0.8125011332807428
+  },
+  "radar_auroc": {
+    "original": 0.9406866128884837,
+    "learned": 0.9374928716049098
+  }
+}

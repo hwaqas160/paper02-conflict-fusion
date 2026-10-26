@@ -1,0 +1,76 @@
+{
+  "lean_kwargs": {
+    "absence_scale": 0.0,
+    "learn_precision": false,
+    "modality_dropout": 0.0,
+    "context": false
+  },
+  "lean_overrides": {
+    "loss_loc_weight": 0.0
+  },
+  "boreas": {
+    "map": {
+      "frame_cls": 0.7001538797627999,
+      "full": 0.7771164826244927,
+      "lean": 0.7764692266943563
+    },
+    "params": {
+      "frame_cls": 10195,
+      "full": 18195,
+      "lean": 14099
+    },
+    "lean_vs_frame_cls": {
+      "diff": 0.0763153599289953,
+      "ci95": [
+        0.0554337559466001,
+        0.10048444663754531
+      ],
+      "p_one_sided": 0.000999000999000999,
+      "n_scenes": 13,
+      "scenes_won": null
+    },
+    "lean_vs_full": {
+      "diff": -0.0006470706061931786,
+      "ci95": [
+        -0.006480388851862256,
+        0.003248508207439365
+      ],
+      "p_one_sided": 0.5954045954045954,
+      "n_scenes": 13,
+      "scenes_won": null
+    }
+  },
+  "truckscenes": {
+    "oof_map": {
+      "frame_cls": 0.7626433606879306,
+      "full": 0.8219946489687255,
+      "lean": 0.817079596494598
+    },
+    "lean_vs_frame_cls": {
+      "diff": 0.054436235806667455,
+      "ci95": [
+        0.045902589815774913,
+        0.06324683216336267
+      ],
+      "p_one_sided": 9.999000099990002e-05,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 197,
+      "scenes_behind": 28,
+      "sign_test_p_two_sided": 1.7811339531202638e-32
+    },
+    "lean_vs_full": {
+      "diff": -0.00491505247412749,
+      "ci95": [
+        -0.008649440911353449,
+        -0.0015610996146590516
+      ],
+      "p_one_sided": 0.998000199980002,
+      "n_scenes": 230,
+      "scenes_won": null,
+      "scenes_ahead": 87,
+      "scenes_behind": 137,
+      "sign_test_p_two_sided": 0.0010162281955814608
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "dataset": "truckscenes",
+  "alpha": 0.1,
+  "score": "degradation-seen",
+  "protocol": "calibration includes the evaluated condition",
+  "conditions": {
+    "fog1": {
+      "n_frames": 441,
+      "accepted": 0.9886621315192744,
+      "fnr_all_frames": 0.0391156462585034,
+      "fnr_accepted": 0.03956422018348624
+    },
+    "night1": {
+      "n_frames": 2480,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.06811103040532362,
+      "fnr_accepted": 0.06811103040532362
+    },
+    "rain1": {
+      "n_frames": 3926,
+      "accepted": 1.0,
+      "fnr_all_frames": 0.1001181712624593,
+      "fnr_accepted": 0.1001181712624593
+    },
+    "snow1": {
+      "n_frames": 816,
+      "accepted": 0.9828431372549019,
+      "fnr_all_frames": 0.15822252366370015,
+      "fnr_accepted": 0.16098451285483706
+    }
+  }
+}

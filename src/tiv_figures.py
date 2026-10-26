@@ -66,8 +66,8 @@ def summary():
     ax.set_ylim(-0.7, len(rows) - 0.3)
     ax.tick_params(axis="x", labelsize=7.0)
     ax.xaxis.label.set_size(7.4)
-    ax.text(-0.205, -0.55, "favours per-frame", fontsize=6.6, color=MUTED, ha="left", va="center")
-    ax.text(0.197, -0.55, "favours per-object", fontsize=6.6, color=MUTED, ha="right", va="center")
+    ax.text(-0.205, -0.55, "favors per-frame", fontsize=6.6, color=MUTED, ha="left", va="center")
+    ax.text(0.197, -0.55, "favors per-object", fontsize=6.6, color=MUTED, ha="right", va="center")
     from matplotlib.lines import Line2D
     handles = [Line2D([0], [0], color=SERIES[0], marker="o", ms=4.5, lw=1.4, label="Advantage holds"),
                Line2D([0], [0], color=SERIES[1], marker="s", ms=4.5, lw=1.4, label="Absent or reversed"),

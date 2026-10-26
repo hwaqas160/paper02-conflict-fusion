@@ -550,3 +550,41 @@ Procedure once the token arrives (token only via env var ZENODO_TOKEN, never wri
  5. publish ONLY on the user's explicit go-ahead: `python tools/zenodo_draft.py publish <id>` (permanent)
  6. GitHub: gh is logged in as hwaqas160; repo hwaqas160/paper02-conflict-fusion; push the curated release set (no .tex, no manuscript pdf).
 Dry-run of set_doi.py verified (7 occurrences).
+
+## 2026-10-19: Zenodo published, GitHub pushed, T-IV bundle ready
+New Zenodo record 10.5281/zenodo.23466408 (draft 23466408) created, DOI replaced in 7 files (tools/set_doi.py), archive rebuilt (184 files, 45 MB, secret scan clean, no .tex/manuscript pdf), uploaded,
+checksums verified, PUBLISHED, DOI resolves. GitHub hwaqas160/paper02-conflict-fusion pushed (commit 4335556; weights excluded, they are on Zenodo). IEEE paper: DOI in data-availability text and reference,
+Acknowledgment with generative-AI disclosure (IEEE policy) added, still 10 pages. Bundle: submission/IEEE_TIV_upload.zip. Remaining for the user: portal items, author photos (after Turnitin), submit. Revoke the Zenodo token.
+
+## 2026-10-19 audit implementation (T-IV)
+Applied C1-C6, I1-I9, polish and improvements 1,2,4,5 (algorithm box skipped: no page room). Eq. 7 now sup; radar claim restated; true-weather claim tied to simulation; headroom evidence added; threats-to-validity paragraph; refs fixed; American spelling. Build: 10 pages, 0 errors, abstract 205 words, ASCII. Zenodo/GitHub archives predate these edits (make_paper_data.py, tiv_figures.py changed) - refresh needs user authorization.
+
+## 2026-10-20 E14 Mondrian conformal (exploratory, src/e14_mondrian.py, results/r4/e14_mondrian.json)
+Calibration on clear + labeled adverse validation frames, per degradation-tercile quantiles. Coverage (nominal 0.90): clear 0.895, fog1 0.902, night1 0.901, rain1 0.905, snow1 0.925. At EQUAL mean radius, pooled conformal and globally inflated vanilla reach equal or higher coverage (e.g. fog1 0.919/0.919, night1 0.912/0.921). Conclusion: Mondrian does not beat plain recalibration; labeled adverse calibration frames alone fix coverage. Not added to the paper (10-page limit, negative).
+
+## 2026-10-20 E15 selective conformal risk control (exploratory, src/e15_selective.py, results/r4/e15_selective.json)
+Joint (tau, lambda) CRC with abstention on label-free degradation score; severity-3 conditions held out of calibration. Chosen tau = calibration max (accept 100% of calibration frames), lambda 0.019, cal risk 0.098. Test FNR among accepted frames (alpha 0.10): clear 0.050, fog1 0.061, fog2 0.105 (marginally above), rain3 0.060 (held out), snow3 0.089 (held out); fog3 (held out) 0% accepted, would be 0.338 unflagged. Resolves the miss-rate failure of R2-E1 in the selective sense; marginal not per-condition guarantee.
+
+## E15b selective CRC on real TruckScenes (leave-one-condition-out, src/e15b_selective_ts.py; results/r4/e15b_selective_ts_{degradation,learned}.json)
+FNR among accepted (alpha 0.10), degradation score / learned GBM risk score: fog1 0.040/0.039, night1 0.069/0.069, rain1 0.106/0.106, snow1 0.176 (76% accepted)/0.157 (100%). Held-out real snow is NOT controlled by either score: selective CRC needs calibration from the deployed condition mix (exchangeability); abstention on a label-free score does not rescue an unseen real condition. Honest limit.
+
+## 2026-10-20 E16 fully in-domain suite (src/e16_indomain.py; results/ts_detector/r4/e16_fully_indomain_router.json, results/r4/e16_head_quality.json)
+Camera range/sigma/score heads and radar cluster-score head (HistGradientBoosting), cross-fitted on the two detector folds, on top of the cross-fitted in-domain LiDAR. Held-out head quality: camera score AUROC 0.667->0.917, radar 0.626->0.941, camera median range error 1.34->1.22 m. Router CV: object 0.886 vs frame_cls 0.883 (+0.0031 [0.0007,0.0062], p=0.0084, 4/5 folds, 146/230 scenes), vs frame_pooled +0.0016 [-0.0000,0.0045] p=0.027, vs fixed +0.0031. Tiny residual advantage (20x smaller than +0.064); not refuted under the E8-C rule but practically negligible. Probes stay at original boxes; heads are learned heads on frozen detectors, not retrained networks.
+
+## 2026-10-21 E18 CADC-native router (src/e18_cadc_native.py; results/r4/e18_cadc_native.json)
+Router and fixed-weight status quo both trained on CADC alone (75 drives, 5-fold drive CV, frames relabelled clear/0 internally; per-frame classifier undefined with one class). Object 0.7425 vs fixed 0.7420: +0.0005 [-0.0051, 0.0067], p=0.48, 3/5 folds. Training on CADC's own drives does not create an advantage; with oracle headroom 0.116 the limit is the information (camera+LiDAR only, no corroborating radar), not Boreas->CADC shift.
+
+## 2026-10-21 E17 lean router (src/e17_lean.py; results/r4/e17_lean_both.json)
+Only the harm loss kept (14,099 params): Boreas 0.776 vs full 0.777 (-0.0006, ns); TruckScenes 0.817 vs 0.822 (-0.0049 [-0.0086,-0.0016]), still +0.0544 over frame_cls. Paper: one sentence in Ablation; headline router unchanged. E18 and E17 added to paper; build 10 pages, 0 errors.
+
+## 2026-10-22 E19/E20/E15b-own
+E19 corrected camera probes: object 0.884 vs frame_cls 0.883, +0.0010 [-0.0013,0.0038], p=0.16, 4/5 folds -> fully in-domain advantage not distinguishable from zero (supersedes E16's +0.0031). E20 unlabeled quantile alignment sim->real: object 0.450 vs 0.752, collapse. E15b own-condition calibration: snow FNR 0.127 (target 0.10). Paper updated, 10 pages.
+
+## 2026-10-22 E21 camera retraining (authorized: "do training whenever find free cpu or gpu")
+src/e21_camera_train.py: Faster R-CNN R50-FPN v2 fine-tuned on projected TruckScenes Car boxes, 2-fold cross-fit, CPU (GPU memory held by other jobs), ~5.7 s/it, 3998 it/fold (~6.3 h each). Chain: tools/run_e21_after.sh (detect -> build cache_cam -> candidates -> router, result results/ts_detector/r4/e21_camera_retrained_router.json). Radar remains learned head (E16), not a retrained network. Resume: re-run train per fold (checkpoint every 100 it), then run_e21_after.sh.
+
+## 2026-10-23 E21 camera AP + E22 combined camera
+Camera-only car AP (2 m, clear/adverse): raw COCO 0.130/0.115; COCO+E16 heads 0.311/0.231; retrained FRCNN (raw lift) 0.101/0.115 (4 m: 0.269/0.237; 0.515/0.378; 0.307/0.318). Retrained 2D boxes alone are worse than head-refit because monocular range dominates. E22 = retrained boxes + E16 heads + corrected-box probes (tools/run_e22.sh, waits for E21_DONE; result results/ts_detector/r4/e22_combined_router.json).
+
+## 2026-10-26 E21/E22 results
+E21 (retrained camera, raw lift): +0.0007 [-0.0027,0.0038] p=0.36, 2/5 folds. E22 (retrained camera + E16 heads + corrected probes): +0.0010 [-0.0023,0.0041] p=0.25, 3/5. Camera adverse AP@2m: raw 0.115, E16 heads 0.231, E22 0.257. Paper: one sentence in in-domain paragraph; 10 pages.

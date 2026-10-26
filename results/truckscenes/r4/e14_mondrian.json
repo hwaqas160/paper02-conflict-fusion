@@ -1,0 +1,51 @@
+{
+  "dataset": "truckscenes",
+  "alpha": 0.1,
+  "conditions": {
+    "clear0": {
+      "n_objects": 26351,
+      "mean_radius_mondrian": 0.5918221802253213,
+      "coverage_mondrian": 0.8949944973625289,
+      "coverage_pooled": 0.8951462942582824,
+      "coverage_pooled_at_matched_radius": 0.9037607680922926,
+      "coverage_vanilla": 0.9002314902660241,
+      "coverage_vanilla_at_matched_radius": 0.9026222913741414
+    },
+    "fog1": {
+      "n_objects": 1006,
+      "mean_radius_mondrian": 0.7388732931709862,
+      "coverage_mondrian": 0.9015904572564613,
+      "coverage_pooled": 0.9065606361829026,
+      "coverage_pooled_at_matched_radius": 0.9194831013916501,
+      "coverage_vanilla": 0.878727634194831,
+      "coverage_vanilla_at_matched_radius": 0.9194831013916501
+    },
+    "night1": {
+      "n_objects": 7320,
+      "mean_radius_mondrian": 0.5941927706185642,
+      "coverage_mondrian": 0.9012295081967213,
+      "coverage_pooled": 0.905327868852459,
+      "coverage_pooled_at_matched_radius": 0.9116120218579234,
+      "coverage_vanilla": 0.9195355191256831,
+      "coverage_vanilla_at_matched_radius": 0.921311475409836
+    },
+    "rain1": {
+      "n_objects": 13469,
+      "mean_radius_mondrian": 0.6816265550809665,
+      "coverage_mondrian": 0.9045214938005791,
+      "coverage_pooled": 0.9050412057316801,
+      "coverage_pooled_at_matched_radius": 0.9172915583933476,
+      "coverage_vanilla": 0.8934590541242854,
+      "coverage_vanilla_at_matched_radius": 0.91276264013661
+    },
+    "snow1": {
+      "n_objects": 1705,
+      "mean_radius_mondrian": 0.9391189159314672,
+      "coverage_mondrian": 0.9249266862170088,
+      "coverage_pooled": 0.9126099706744868,
+      "coverage_pooled_at_matched_radius": 0.9407624633431085,
+      "coverage_vanilla": 0.8134897360703812,
+      "coverage_vanilla_at_matched_radius": 0.9266862170087976
+    }
+  }
+}

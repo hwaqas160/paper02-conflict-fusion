@@ -1,0 +1,35 @@
+{
+  "method": "unlabeled quantile alignment of all inputs to Boreas training distribution",
+  "n_boot": 1000,
+  "map": {
+    "fixed_clear": 0.7448940843367642,
+    "frame_cls": 0.7520160823844549,
+    "object": 0.449744065627106
+  },
+  "object_vs_frame_cls": {
+    "diff": -0.30227201675734894,
+    "ci95": [
+      -0.3243253525341321,
+      -0.27947549616204914
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 5,
+    "scenes_behind": 220,
+    "sign_test_p_two_sided": 1.743700832957487e-58
+  },
+  "object_vs_fixed_clear": {
+    "diff": -0.2951500187096582,
+    "ci95": [
+      -0.3174582725191362,
+      -0.27236980094882146
+    ],
+    "p_one_sided": 1.0,
+    "n_scenes": 230,
+    "scenes_won": null,
+    "scenes_ahead": 6,
+    "scenes_behind": 219,
+    "sign_test_p_two_sided": 6.423964063587081e-57
+  }
+}
