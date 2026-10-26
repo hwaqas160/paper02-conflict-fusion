@@ -20,7 +20,7 @@ OUT = ROOT / "release"
 MAX_MB = 25
 INCLUDE_TOP = ["src", "tests", "configs", "notes", "tools", "PLAN.md", "README.md", "LICENSE",
                "CITATION.cff", "requirements.txt", ".zenodo.json",
-               "paper/latex/make_paper_data.py", "paper/latex/make_stubs.py"]
+               "paper/latex/make_paper_data.py", "paper/latex/make_stubs.py", "results/cache/boreas/manifest.json"]
 INCLUDE_RESULTS = ["REPORT.md", "multiseed_exp2.json", "multiseed_exp2.md", "exp1_harm", "exp2_routing", "exp3_ablation",
                    "exp4_conformal", "exp5_cadc", "exp6_raf", "exp7_dropout", "exp8_qualitative", "figures", "r2", "r2d",
                    "truckscenes/r2", "truckscenes/r3", "truckscenes/r4", "truckscenes_dev/r3", "r3", "r4", "supplementary", "sim2real",
@@ -41,7 +41,7 @@ def files():
 
 def keep(p):
     rel = p.relative_to(ROOT)
-    return (not (set(rel.parts) & SKIP_PARTS) and p.suffix not in SKIP_SUFFIX and p.name not in SKIP_NAMES
+    return ((p.name == "manifest.json" or not (set(rel.parts) & SKIP_PARTS)) and p.suffix not in SKIP_SUFFIX and p.name not in SKIP_NAMES
             and "STALE" not in p.name and p.stat().st_size <= MAX_MB * 2 ** 20)
 
 
