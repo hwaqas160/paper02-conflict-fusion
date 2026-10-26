@@ -39,17 +39,19 @@ def summary():
     e8c = load("ts_detector", "r4", "e8c_indomain_router.json")["primary_object_vs_frame_cls"]
     cad = load("r2", "r2d_cadc.json")["D1_raw"]["object_vs_frame_cls"]
     e13 = load("truckscenes", "r4", "e13_sim2real.json")["object_vs_frame_cls"]
+    e22 = load("ts_detector", "r4", "e22_combined_router.json")["primary_object_vs_frame_cls"]
     rows = [
         ("Simulated weather (Boreas)", s1, 0),
         ("Real weather, off-the-shelf LiDAR", ts, 0),
         ("Real weather, stronger camera", cam, 0),
         ("Real weather, in-domain LiDAR", e8c, 1),
+        ("Real weather, all sensors in domain", e22, 1),
         ("CADC real snow, no radar", cad, 1),
         ("Simulation-trained, zero-shot on real", e13, 1),
         ("Equal-information control, Boreas*", r41, 2),
         ("Equal-information control, real*", r42, 2),
     ]
-    fig, ax = plt.subplots(figsize=(7.1, 2.35))
+    fig, ax = plt.subplots(figsize=(7.1, 2.55))
     style(ax, xlabel="Difference in mean average precision, per-object minus comparison", grid_axis="x")
     ypos = np.arange(len(rows))[::-1]
     kind_color = {0: SERIES[0], 1: SERIES[1], 2: SERIES[2]}
