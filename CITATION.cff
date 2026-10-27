@@ -6,7 +6,7 @@ license: MIT
 repository-code: "https://github.com/hwaqas160/paper02-conflict-fusion"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.23466408"
+    value: "10.5281/zenodo.23692381"
     description: "Archived snapshot (code, results, pre-registrations) on Zenodo"
 authors:
   - family-names: Saleem
